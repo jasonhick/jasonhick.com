@@ -1,0 +1,9 @@
+<ul class="space-y-2">
+   <li *ngFor="let skill of skills" class="p-2 hover:bg-slate-100 rounded cursor-pointer">
+      <a [routerLink]="['/skills', skill.id]">
+         {{ skill.name }}
+      </a>
+   </li>
+</ul>
+
+<div *ngIf="!skills?.length" class="text-gray-500">No skills found.</div>

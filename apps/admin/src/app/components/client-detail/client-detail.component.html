@@ -1,0 +1,36 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+   <div class="grid grid-cols-1 gap-4">
+      <div>
+         <label for="name">Name *</label>
+         <input id="name" type="text" formControlName="name" />
+         <div *ngIf="form.get('name')?.errors?.['required'] && form.get('name')?.touched">Name is required</div>
+      </div>
+
+      <div>
+         <label for="description">Description</label>
+         <textarea id="description" formControlName="description"></textarea>
+      </div>
+
+      <div>
+         <label for="website">Website</label>
+         <input id="website" type="url" formControlName="website" />
+      </div>
+
+      <div>
+         <label for="logo_url">Logo URL</label>
+         <input id="logo_url" type="url" formControlName="logo_url" />
+      </div>
+
+      <div>
+         <label for="start_date">Start Date</label>
+         <input id="start_date" type="date" formControlName="start_date" />
+      </div>
+
+      <div>
+         <label for="end_date">End Date</label>
+         <input id="end_date" type="date" formControlName="end_date" />
+      </div>
+   </div>
+
+   <button type="submit" [disabled]="!form.valid">Save Client</button>
+</form>

@@ -1,0 +1,10 @@
+<ul class="space-y-2">
+   <li *ngFor="let image of images" class="p-2 hover:bg-slate-100 rounded cursor-pointer">
+      <a [routerLink]="['/images', image.id]">
+         <img [src]="image.url" [alt]="image.caption" class="w-16 h-16 object-cover rounded" />
+         <span class="ml-2">{{ image.caption || 'Untitled Image' }}</span>
+      </a>
+   </li>
+</ul>
+
+<div *ngIf="!images?.length" class="text-gray-500">No images found.</div>

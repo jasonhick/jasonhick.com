@@ -1,8 +1,8 @@
-import { Client, Image, Project, Skill } from './data-contracts';
-import { createService } from './factory/service.factory';
-
-export const ClientService = createService<Client>('clients');
-export const ImageService = createService<Image>('images');
-export const ProjectService = createService<Project>('projects');
-export const SkillService = createService<Skill>('skills');
+// Data Contracts
 export * from './data-contracts';
+
+// Services
+export * from './client/client.service';
+export * from './image/image.service';
+export * from './project/project.service';
+export * from './skill/skill.service';

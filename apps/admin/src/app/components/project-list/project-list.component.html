@@ -1,0 +1,9 @@
+<ul class="space-y-2">
+   <li *ngFor="let project of projects" class="p-2 hover:bg-slate-100 rounded cursor-pointer">
+      <a [routerLink]="['/projects', project.id]">
+         {{ project.title }}
+      </a>
+   </li>
+</ul>
+
+<div *ngIf="!projects?.length" class="text-gray-500">No projects found.</div>

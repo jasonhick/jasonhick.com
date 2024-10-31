@@ -27,36 +27,20 @@ def generate_swagger_file(app, api):
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.url_map.strict_slashes = False  # This disables the automatic redirect
 
     # Enable CORS for all routes
     CORS(
         app,
         resources={
             r"/*": {
-                "origins": ["http://localhost:4200"],
+                "origins": "*",  # Allow all origins in development
                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 "allow_headers": ["Content-Type", "Authorization"],
-                "supports_credentials": True,
+                "supports_credentials": False,  # Must be False when using "*"
             }
         },
     )
-
-    # Additional CORS handling for preflight requests
-    @app.before_request
-    def handle_preflight():
-        if request.method == "OPTIONS":
-            response = app.make_default_options_response()
-            response.headers["Access-Control-Allow-Origin"] = (
-                "http://localhost:4200"
-            )
-            response.headers["Access-Control-Allow-Methods"] = (
-                "GET, POST, PUT, DELETE, OPTIONS"
-            )
-            response.headers["Access-Control-Allow-Headers"] = (
-                "Content-Type, Authorization"
-            )
-            response.headers["Access-Control-Allow-Credentials"] = "true"
-            return response
 
     # Initialize API
     api = Api(

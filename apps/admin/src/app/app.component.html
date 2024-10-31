@@ -1,0 +1,36 @@
+<nav class="mb-4">
+   <ul class="flex gap-4 p-2 bg-slate-100 rounded-lg">
+      <li>
+         <a
+            [routerLink]="['clients']"
+            class="px-4 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors">
+            Clients
+         </a>
+      </li>
+      <li>
+         <a
+            [routerLink]="['projects']"
+            class="px-4 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors">
+            Projects
+         </a>
+      </li>
+      <li>
+         <a
+            [routerLink]="['skills']"
+            class="px-4 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors">
+            Skills
+         </a>
+      </li>
+      <li>
+         <a
+            [routerLink]="['images']"
+            class="px-4 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors">
+            Images
+         </a>
+      </li>
+   </ul>
+</nav>
+
+<div class="grid grid-cols-auto gap-4 bg-white p-4 border border-slate-300 border-solid rounded-lg">
+   <router-outlet></router-outlet>
+</div>

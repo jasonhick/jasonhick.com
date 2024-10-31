@@ -1,0 +1,13 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+   <div class="grid grid-cols-1 gap-4">
+      <div>
+         <label for="name">Name *</label>
+         <input id="name" type="text" formControlName="name" />
+         <div *ngIf="form.get('name')?.errors?.['required'] && form.get('name')?.touched">Name is required</div>
+      </div>
+   </div>
+
+   <button type="submit" [disabled]="!form.valid" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+      Save Skill
+   </button>
+</form>

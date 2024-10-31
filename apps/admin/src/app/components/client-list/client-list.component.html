@@ -1,0 +1,9 @@
+<ul class="space-y-2">
+   <li *ngFor="let client of clients" class="p-2 hover:bg-slate-100 rounded cursor-pointer">
+      <a [routerLink]="['/clients', client.id]">
+         {{ client.name }}
+      </a>
+   </li>
+</ul>
+
+<div *ngIf="!clients?.length" class="text-gray-500">No clients found.</div>

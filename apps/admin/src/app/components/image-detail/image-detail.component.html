@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+   <div class="grid grid-cols-1 gap-4">
+      <div>
+         <label for="url">Image URL *</label>
+         <input id="url" type="url" formControlName="url" />
+         <div *ngIf="form.get('url')?.errors?.['required'] && form.get('url')?.touched">Image URL is required</div>
+      </div>
+
+      <div>
+         <label for="caption">Caption</label>
+         <input id="caption" type="text" formControlName="caption" />
+      </div>
+
+      <div>
+         <label for="order">Display Order</label>
+         <input id="order" type="number" formControlName="order" />
+      </div>
+
+      <div>
+         <label for="project_id">Project ID *</label>
+         <input id="project_id" type="number" formControlName="project_id" />
+         <div *ngIf="form.get('project_id')?.errors?.['required'] && form.get('project_id')?.touched">
+            Project ID is required
+         </div>
+      </div>
+   </div>
+
+   <button type="submit" [disabled]="!form.valid" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+      Save Image
+   </button>
+</form>

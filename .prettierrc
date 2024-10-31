@@ -1,3 +1,8 @@
 {
-  "singleQuote": true
+  "singleQuote": true,
+  "trailingComma": "none",
+  "printWidth": 120,
+   "tabWidth": 3,
+   "htmlWhitespaceSensitivity": "ignore",
+   "bracketSameLine": true
 }

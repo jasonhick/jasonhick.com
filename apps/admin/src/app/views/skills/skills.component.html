@@ -1,0 +1,20 @@
+<h1>Skills</h1>
+
+<div *ngIf="loading$(); else content">Loading...</div>
+
+<ng-template #content>
+   <div *ngIf="error$(); else dataContent">
+      {{ error$() }}
+   </div>
+
+   <ng-template #dataContent>
+      <div class="grid grid-cols-[350px_1fr] gap-4">
+         <div class="bg-slate-50 rounded-lg p-6 border border-slate-300 border-solid">
+            <app-skill-list [skills]="skills$()"></app-skill-list>
+         </div>
+         <div class="bg-slate-50 rounded-lg p-6 border border-slate-300 border-solid">
+            <app-skill-detail (submitted)="saveSkill($event)"></app-skill-detail>
+         </div>
+      </div>
+   </ng-template>
+</ng-template>

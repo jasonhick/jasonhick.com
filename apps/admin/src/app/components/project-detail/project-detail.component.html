@@ -1,0 +1,67 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+   <div class="grid grid-cols-1 gap-4">
+      <div>
+         <label for="title">Title *</label>
+         <input id="title" type="text" formControlName="title" />
+         <div *ngIf="form.get('title')?.errors?.['required'] && form.get('title')?.touched">Title is required</div>
+      </div>
+
+      <div>
+         <label for="description">Description *</label>
+         <textarea id="description" formControlName="description"></textarea>
+         <div *ngIf="form.get('description')?.errors?.['required'] && form.get('description')?.touched">
+            Description is required
+         </div>
+      </div>
+
+      <div>
+         <label for="thumbnail_url">Thumbnail URL *</label>
+         <input id="thumbnail_url" type="url" formControlName="thumbnail_url" />
+         <div *ngIf="form.get('thumbnail_url')?.errors?.['required'] && form.get('thumbnail_url')?.touched">
+            Thumbnail URL is required
+         </div>
+      </div>
+
+      <div>
+         <label for="live_url">Live URL</label>
+         <input id="live_url" type="url" formControlName="live_url" />
+      </div>
+
+      <div>
+         <label for="github_url">GitHub URL</label>
+         <input id="github_url" type="url" formControlName="github_url" />
+      </div>
+
+      <div>
+         <label for="start_date">Start Date *</label>
+         <input id="start_date" type="date" formControlName="start_date" />
+         <div *ngIf="form.get('start_date')?.errors?.['required'] && form.get('start_date')?.touched">
+            Start date is required
+         </div>
+      </div>
+
+      <div>
+         <label for="end_date">End Date *</label>
+         <input id="end_date" type="date" formControlName="end_date" />
+         <div *ngIf="form.get('end_date')?.errors?.['required'] && form.get('end_date')?.touched">
+            End date is required
+         </div>
+      </div>
+
+      <div>
+         <label>
+            <input type="checkbox" formControlName="is_featured" />
+            Featured Project
+         </label>
+      </div>
+
+      <div>
+         <label for="client_id">Client ID</label>
+         <input id="client_id" type="number" formControlName="client_id" />
+      </div>
+   </div>
+
+   <button type="submit" [disabled]="!form.valid" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+      Save Project
+   </button>
+</form>
