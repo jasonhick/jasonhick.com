@@ -2,11 +2,13 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Client } from '@jasonhick.com/data-access';
+import { FormErrorComponent } from '../form-error/form-error.component';
+import { FormFieldComponent } from '../form-field/form-field.component';
 
 @Component({
    selector: 'app-client-detail',
    standalone: true,
-   imports: [CommonModule, ReactiveFormsModule],
+   imports: [CommonModule, ReactiveFormsModule, FormErrorComponent, FormFieldComponent],
    templateUrl: './client-detail.component.html'
 })
 export class ClientDetailComponent {
@@ -16,11 +18,11 @@ export class ClientDetailComponent {
    constructor(private fb: FormBuilder) {
       this.form = this.fb.group({
          name: ['', Validators.required],
-         description: [''],
+         description: ['', Validators.required],
          website: [''],
          logo_url: [''],
-         start_date: [''],
-         end_date: ['']
+         start_date: ['', Validators.required],
+         end_date: ['', Validators.required]
       });
    }
 

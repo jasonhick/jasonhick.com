@@ -1,35 +1,28 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
    <div class="grid grid-cols-1 gap-4">
-      <div>
-         <label for="name">Name *</label>
+      <app-form-field id="name" label="Name" [form]="form" [required]="true">
          <input id="name" type="text" formControlName="name" />
-         <div *ngIf="form.get('name')?.errors?.['required'] && form.get('name')?.touched">Name is required</div>
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="description">Description</label>
+      <app-form-field id="description" label="Description" [form]="form" [required]="true">
          <textarea id="description" formControlName="description"></textarea>
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="website">Website</label>
+      <app-form-field id="website" label="Website" [form]="form">
          <input id="website" type="url" formControlName="website" />
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="logo_url">Logo URL</label>
+      <app-form-field id="logo_url" label="Logo URL" [form]="form">
          <input id="logo_url" type="url" formControlName="logo_url" />
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="start_date">Start Date</label>
+      <app-form-field id="start_date" label="Start Date" [form]="form" [required]="true">
          <input id="start_date" type="date" formControlName="start_date" />
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="end_date">End Date</label>
+      <app-form-field id="end_date" label="End Date" [form]="form" [required]="true">
          <input id="end_date" type="date" formControlName="end_date" />
-      </div>
+      </app-form-field>
    </div>
 
    <button type="submit" [disabled]="!form.valid">Save Client</button>

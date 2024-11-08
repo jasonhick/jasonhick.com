@@ -1,20 +1,56 @@
-<h1>Clients</h1>
-
-<div *ngIf="loading$(); else content">Loading...</div>
-
-<ng-template #content>
-   <div *ngIf="error$(); else dataContent">
-      {{ error$() }}
+<div class="card">
+   <div class="px-4 py-5 border-b border-gray-700 sm:px-6">
+      <h1 class="text-lg font-medium leading-6 text-gray-100">Clients</h1>
    </div>
 
-   <ng-template #dataContent>
-      <div class="grid grid-cols-[350px_1fr] gap-4">
-         <div class="bg-slate-50 rounded-lg p-6 border border-slate-300 border-solid">
-            <app-client-list [clients]="clients$()"></app-client-list>
-         </div>
-         <div class="bg-slate-50 rounded-lg p-6 border border-slate-300 border-solid">
-            <app-client-detail (submitted)="saveClient($event)"></app-client-detail>
+   <div class="p-4 sm:p-6">
+      <div *ngIf="loading$()" class="text-gray-300">Loading...</div>
+      <div *ngIf="error$()" class="text-red-400">{{ error$() }}</div>
+
+      <div *ngIf="!loading$() && !error$()">
+         <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-12 md:gap-6">
+            <!-- Client List -->
+            <div class="md:col-span-4">
+               <div class="card">
+                  <div class="card-header">
+                     <h2 class="card-title">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        Client List
+                     </h2>
+                  </div>
+                  <div class="card-body">
+                     <app-client-list [clients]="clients$()"></app-client-list>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Client Detail -->
+            <div class="md:col-span-8">
+               <div class="card">
+                  <div class="card-header">
+                     <h2 class="card-title">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Client Details
+                     </h2>
+                  </div>
+                  <div class="card-body">
+                     <app-client-detail (submitted)="saveClient($event)"></app-client-detail>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
-   </ng-template>
-</ng-template>
+   </div>
+</div>

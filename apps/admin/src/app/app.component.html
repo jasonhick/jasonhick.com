@@ -1,36 +1,86 @@
-<nav class="mb-4">
-   <ul class="flex gap-4 p-2 bg-slate-100 rounded-lg">
-      <li>
+<!-- Vertical navbar -->
+<nav class="bg-gray-800 fixed h-full w-64 left-0 top-0 z-50 border-r border-gray-700">
+   <div class="flex flex-col h-full">
+      <!-- Logo at top -->
+      <div class="p-4 border-b border-gray-700">
+         <a routerLink="/" class="text-white font-bold text-xl">Portfolio</a>
+      </div>
+
+      <!-- Desktop menu items - vertical stack -->
+      <div class="hidden md:flex md:flex-col md:space-y-2 p-4">
          <a
-            [routerLink]="['clients']"
-            class="px-4 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors">
+            routerLink="/clients"
+            routerLinkActive="bg-gray-900 text-white"
+            class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">
             Clients
          </a>
-      </li>
-      <li>
          <a
-            [routerLink]="['projects']"
-            class="px-4 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors">
+            routerLink="/projects"
+            routerLinkActive="bg-gray-900 text-white"
+            class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">
             Projects
          </a>
-      </li>
-      <li>
          <a
-            [routerLink]="['skills']"
-            class="px-4 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors">
+            routerLink="/skills"
+            routerLinkActive="bg-gray-900 text-white"
+            class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">
             Skills
          </a>
-      </li>
-      <li>
          <a
-            [routerLink]="['images']"
-            class="px-4 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors">
+            routerLink="/images"
+            routerLinkActive="bg-gray-900 text-white"
+            class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">
             Images
          </a>
-      </li>
-   </ul>
+      </div>
+
+      <!-- Mobile menu button - moved to top -->
+      <div class="md:hidden p-4 border-b border-gray-700">
+         <label
+            for="menu-toggle"
+            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none cursor-pointer">
+            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+         </label>
+      </div>
+
+      <!-- Mobile menu - now drops down vertically -->
+      <input type="checkbox" id="menu-toggle" class="hidden peer" />
+      <div class="hidden peer-checked:block md:hidden p-4">
+         <div class="space-y-2">
+            <a
+               routerLink="/clients"
+               routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">
+               Clients
+            </a>
+            <a
+               routerLink="/projects"
+               routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">
+               Projects
+            </a>
+            <a
+               routerLink="/skills"
+               routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">
+               Skills
+            </a>
+            <a
+               routerLink="/images"
+               routerLinkActive="bg-gray-900 text-white"
+               class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">
+               Images
+            </a>
+         </div>
+      </div>
+   </div>
 </nav>
 
-<div class="grid grid-cols-auto gap-4 bg-white p-4 border border-slate-300 border-solid rounded-lg">
-   <router-outlet></router-outlet>
-</div>
+<!-- Main content - adjusted for sidebar -->
+<main class="md:ml-64 min-h-screen bg-gray-900">
+   <div class="p-8">
+      <router-outlet></router-outlet>
+   </div>
+</main>

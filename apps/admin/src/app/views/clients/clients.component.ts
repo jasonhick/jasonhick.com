@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Client, ClientService } from '@jasonhick.com/data-access';
@@ -14,11 +14,13 @@ import { RouterOutlet } from '@angular/router';
    templateUrl: './clients.component.html'
 })
 export class ClientsComponent implements OnInit {
-   clients$ = signal<Client[]>([]);
-   loading$ = signal<boolean>(false);
-   error$ = signal<string | null>(null);
+   public clients$ = signal<Client[]>([]);
+   public loading$ = signal<boolean>(false);
+   public error$ = signal<string | null>(null);
 
-   constructor(private clientService: ClientService) {
+   private clientService = inject(ClientService);
+
+   constructor() {
       // Expose service signals to the template
       this.clients$ = this.clientService.clients$;
       this.loading$ = this.clientService.loading$;
