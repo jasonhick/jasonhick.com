@@ -1,9 +1,8 @@
 from datetime import datetime
 
+from backend.src.database import db
+from backend.src.models import Project
 from flask_restx import Namespace, Resource, fields, reqparse
-
-from ..database import db
-from ..models import Project
 
 project_ns = Namespace("projects", description="Project operations")
 
@@ -41,7 +40,7 @@ project_parser.add_argument(
     "title", type=str, required=True, help="Title is required"
 )
 project_parser.add_argument("description", type=str, required=True)
-project_parser.add_argument("features", type=list)
+project_parser.add_argument("features", type=list, required=False)
 project_parser.add_argument("thumbnail_url", type=str, required=True)
 project_parser.add_argument("live_url", type=str)
 project_parser.add_argument("github_url", type=str)

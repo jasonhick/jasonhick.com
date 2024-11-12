@@ -1,9 +1,8 @@
 from datetime import datetime
 
+from backend.src.database import db
+from backend.src.models import Client
 from flask_restx import Namespace, Resource, fields, reqparse
-
-from ..database import db
-from ..models import Client
 
 # Create namespace
 client_ns = Namespace("clients", description="Client operations")
@@ -12,7 +11,7 @@ client_ns = Namespace("clients", description="Client operations")
 client_model = client_ns.model(
     "Client",
     {
-        "id": fields.Integer(readonly=True),
+        "id": fields.Integer(readonly=True, description="Client ID"),
         "name": fields.String(required=True, description="Client name"),
         "description": fields.String(description="Client description"),
         "website": fields.String(description="Client website URL"),

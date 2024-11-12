@@ -33,11 +33,11 @@ def create_app():
     CORS(
         app,
         resources={
-            r"/*": {
-                "origins": "*",  # Allow all origins in development
+            r"/api/*": {  # Changed from r"/*" to specifically target API routes
+                "origins": ["http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:5000", "http://127.0.0.1:5000"],  # Specify allowed origins
                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 "allow_headers": ["Content-Type", "Authorization"],
-                "supports_credentials": False,  # Must be False when using "*"
+                "supports_credentials": True,
             }
         },
     )
@@ -79,3 +79,5 @@ def create_app():
 
 # Create the app instance
 app = create_app()
+
+__all__ = ["create_app"]

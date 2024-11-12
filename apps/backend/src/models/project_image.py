@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from ..database import db
+from backend.src.database import db
 
 
 class ProjectImage(db.Model):

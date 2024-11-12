@@ -1,8 +1,8 @@
+from backend.src.database import db
+from backend.src.models import Skill
 from flask_restx import Namespace, Resource, fields, reqparse
 
-from ..database import db
-from ..models import Skill
-
+# Create namespace
 skill_ns = Namespace("skills", description="Skill operations")
 
 # Define models for swagger documentation
@@ -25,10 +25,17 @@ skill_parser.add_argument(
 
 @skill_ns.route("/")
 class SkillList(Resource):
+    """Resource for managing collections of skills.
+
+    Provides endpoints for:
+    - Retrieving all skills
+    - Creating new skills with unique names
+    """
+
     @skill_ns.marshal_list_with(skill_model)
     @skill_ns.doc("list_skills")
     def get(self):
-        """List all skills"""
+        """List all skills."""
         return Skill.query.all()
 
     @skill_ns.marshal_with(skill_model)
@@ -51,6 +58,16 @@ class SkillList(Resource):
 @skill_ns.route("/<int:skill_id>")
 @skill_ns.param("skill_id", "The skill identifier")
 class SkillResource(Resource):
+    """Resource for managing individual skills.
+
+    Provides endpoints for:
+    - Retrieving a specific skill by ID
+    - Updating a skill's information
+    - Deleting a skill from the system
+
+    Each skill must maintain a unique name across the system.
+    """
+
     @skill_ns.marshal_with(skill_model)
     @skill_ns.doc("get_skill")
     def get(self, skill_id):
