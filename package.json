@@ -2,7 +2,10 @@
   "name": "@jasonhick.com/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix ."
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~18.2.0",

@@ -1,7 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Image, ImageService } from '@jasonhick.com/data-access';
+
 import * as COMPONENTS from '../../components';
 
 @Component({

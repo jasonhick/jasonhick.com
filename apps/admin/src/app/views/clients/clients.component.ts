@@ -1,11 +1,10 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import {  RouterOutlet } from '@angular/router';
-
 import {  ClientService } from '@jasonhick.com/data-access';
 
-import { ClientListComponent } from '../../components/client-list/client-list.component';
 import { ClientDetailComponent } from '../../components/client-detail/client-detail.component';
+import { ClientListComponent } from '../../components/client-list/client-list.component';
 
 
 @Component({

@@ -1,5 +1,5 @@
-import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Client } from '@jasonhick.com/data-access';
 

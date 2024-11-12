@@ -1,9 +1,10 @@
-import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Skill, SkillService } from '@jasonhick.com/data-access';
-import { SkillListComponent } from '../../components/skill-list/skill-list.component';
-import { SkillDetailComponent } from '../../components/skill-detail/skill-detail.component';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Skill, SkillService } from '@jasonhick.com/data-access';
+
+import { SkillDetailComponent } from '../../components/skill-detail/skill-detail.component';
+import { SkillListComponent } from '../../components/skill-list/skill-list.component';
 
 @Component({
    selector: 'app-skills',

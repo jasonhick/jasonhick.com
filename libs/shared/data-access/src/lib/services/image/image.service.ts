@@ -1,8 +1,10 @@
-import { computed, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { computed, Injectable, signal } from '@angular/core';
+import { catchError, of, take, tap } from 'rxjs';
+
 import { BaseService } from '../base/base.service';
 import { Image } from '../data-contracts';
-import { catchError, of, take, tap } from 'rxjs';
+
 
 @Injectable({
    providedIn: 'root'

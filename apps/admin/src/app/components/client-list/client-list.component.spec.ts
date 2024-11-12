@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-
 import { Client } from '@jasonhick.com/data-access';
 
 import { ClientListComponent } from './client-list.component';
