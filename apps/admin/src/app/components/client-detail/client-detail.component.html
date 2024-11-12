@@ -1,5 +1,9 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<h1>{{ (client$ | async)?.name || 'New Client' }}</h1>
+
+<form [formGroup]="form" (ngSubmit)="saveClient()">
+
    <div class="grid grid-cols-1 gap-4">
+
       <app-form-field id="name" label="Name" [form]="form" [required]="true">
          <input id="name" type="text" formControlName="name" />
       </app-form-field>
@@ -23,7 +27,10 @@
       <app-form-field id="end_date" label="End Date" [form]="form" [required]="true">
          <input id="end_date" type="date" formControlName="end_date" />
       </app-form-field>
-   </div>
 
-   <button type="submit" [disabled]="!form.valid">Save Client</button>
+      <div class="flex justify-end">
+         <button type="submit" [disabled]="!form.valid">{{ buttonText }}</button>
+      </div>
+
+   </div>
 </form>

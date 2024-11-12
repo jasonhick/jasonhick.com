@@ -11,6 +11,9 @@
          </div>
       </a>
    </li>
+   <li>
+      <button type="button" [routerLink]="['/clients', 'add']">Add Client</button>
+   </li>
 </ul>
 
 <div *ngIf="!clients?.length" class="empty-state">No clients found.</div>

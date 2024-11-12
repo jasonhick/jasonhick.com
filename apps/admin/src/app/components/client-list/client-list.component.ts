@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Client } from '@jasonhick.com/data-access';
@@ -11,6 +11,5 @@ import { Client } from '@jasonhick.com/data-access';
 })
 export class ClientListComponent {
    @Input() clients: Client[] = [];
-
-   constructor(private router: Router) {}
+   public router = inject(Router);
 }

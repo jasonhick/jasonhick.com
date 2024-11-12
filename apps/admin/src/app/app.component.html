@@ -1,85 +1,56 @@
-<!-- Vertical navbar -->
-<nav class="bg-gray-800 fixed h-full w-64 left-0 top-0 z-50 border-r border-gray-700">
-   <div class="flex flex-col h-full">
-      <!-- Logo at top -->
-      <div class="p-4 border-b border-gray-700">
-         <a routerLink="/" class="text-white font-bold text-xl">Portfolio</a>
-      </div>
+<!-- Mobile nav (horizontal at top) -->
+<nav class="md:hidden fixed w-full top-0 left-0 bg-gray-900 border-b border-gray-700/50 z-50">
+   <div class="flex items-center justify-between p-4">
+      <!-- Logo -->
+      <h1>Admin</h1>
 
-      <!-- Desktop menu items - vertical stack -->
-      <div class="hidden md:flex md:flex-col md:space-y-2 p-4">
-         <a
-            routerLink="/clients"
-            routerLinkActive="bg-gray-900 text-white"
-            class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">
-            Clients
-         </a>
-         <a
-            routerLink="/projects"
-            routerLinkActive="bg-gray-900 text-white"
-            class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">
-            Projects
-         </a>
-         <a
-            routerLink="/skills"
-            routerLinkActive="bg-gray-900 text-white"
-            class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">
-            Skills
-         </a>
-         <a
-            routerLink="/images"
-            routerLinkActive="bg-gray-900 text-white"
-            class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white">
-            Images
-         </a>
-      </div>
+      <!-- Mobile menu button -->
+      <button
+         (click)="isMenuOpen = !isMenuOpen"
+         class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-100 hover:bg-gray-800 focus:outline-none">
+         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+         </svg>
+      </button>
+   </div>
 
-      <!-- Mobile menu button - moved to top -->
-      <div class="md:hidden p-4 border-b border-gray-700">
-         <label
-            for="menu-toggle"
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none cursor-pointer">
-            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-         </label>
-      </div>
-
-      <!-- Mobile menu - now drops down vertically -->
-      <input type="checkbox" id="menu-toggle" class="hidden peer" />
-      <div class="hidden peer-checked:block md:hidden p-4">
-         <div class="space-y-2">
-            <a
-               routerLink="/clients"
-               routerLinkActive="bg-gray-900 text-white"
-               class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">
-               Clients
-            </a>
-            <a
-               routerLink="/projects"
-               routerLinkActive="bg-gray-900 text-white"
-               class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">
-               Projects
-            </a>
-            <a
-               routerLink="/skills"
-               routerLinkActive="bg-gray-900 text-white"
-               class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">
-               Skills
-            </a>
-            <a
-               routerLink="/images"
-               routerLinkActive="bg-gray-900 text-white"
-               class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 hover:text-white">
-               Images
-            </a>
-         </div>
+   <!-- Mobile menu dropdown -->
+   <div *ngIf="isMenuOpen" class="border-t border-gray-700/50">
+      <div class="px-2 py-3 space-y-1">
+         <a
+            *ngFor="let item of navItems"
+            [routerLink]="item.route"
+            routerLinkActive="bg-gray-800 text-gray-100"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:bg-gray-800 hover:text-gray-100">
+            {{ item.label }}
+         </a>
       </div>
    </div>
 </nav>
 
-<!-- Main content - adjusted for sidebar -->
-<main class="md:ml-64 min-h-screen bg-gray-900">
+<!-- Desktop nav (vertical on left) -->
+<nav class="hidden md:block fixed h-full w-64 left-0 top-0 bg-gray-900 border-r border-gray-700/50 z-50">
+   <div class="flex flex-col h-full">
+      <!-- Logo -->
+      <div class="p-4 border-b border-gray-700/50">
+         <h1>Admin</h1>
+      </div>
+
+      <!-- Desktop menu items -->
+      <div class="flex flex-col space-y-2 p-4">
+         <a
+            *ngFor="let item of navItems"
+            [routerLink]="item.route"
+            routerLinkActive="bg-gray-800 text-gray-100"
+            class="px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-gray-100">
+            {{ item.label }}
+         </a>
+      </div>
+   </div>
+</nav>
+
+<!-- Main content -->
+<main class="pt-[73px] md:pt-0 md:ml-64 min-h-screen bg-gray-900">
    <div class="p-8">
       <router-outlet></router-outlet>
    </div>

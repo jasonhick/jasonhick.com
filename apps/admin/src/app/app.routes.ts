@@ -9,14 +9,8 @@ export const routes: Routes = [
       component: VIEWS.ClientsComponent,
       children: [
          {
-            path: '',
-            component: COMPONENTS.ClientListComponent,
-            children: [
-               {
-                  path: ':clientId',
-                  component: COMPONENTS.ClientDetailComponent
-               }
-            ]
+            path: ':clientId',
+            component: COMPONENTS.ClientDetailComponent
          }
       ]
    },
