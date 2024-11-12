@@ -26,7 +26,7 @@ class TestService extends BaseService<TestModel> {
 describe('BaseService', () => {
   let service: TestService;
   let httpMock: HttpTestingController;
-  const apiUrl = 'http://localhost:5000/api/test';
+  const apiUrl = 'http://127.0.0.1:5000/api/test';
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -35,7 +35,7 @@ export class SkillService extends BaseService<Skill> {
       this.loading$.set(true);
       this.error$.set(null);
 
-      this.list()
+      this.get()
          .pipe(
             take(1),
             catchError((error) => {

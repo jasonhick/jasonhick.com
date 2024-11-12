@@ -19,29 +19,24 @@ export class BaseService<T> {
    * @param path - The path to the API endpoint
    */
   protected setPath(path: string) {
-    const base = 'http://localhost:5000/api';
+    const base = 'http://127.0.0.1:5000/api';
     this.url = `${base}/${path}`;
   }
 
   /**
-   * Retrieves a list of all items from the API endpoint
+   * Retrieves an item or a list of items
+   * @param parentId - Optional parent ID to filter results
    * @returns An Observable that emits an array of items of type T
    */
-  list(): Observable<T[]> {
-    return this.http.get<T[]>(this.url, { headers: this.headers });
-  }
+  get(): Observable<T[]>;
+  get(id: number): Observable<T>
+  get(id?: number): Observable<T[] | T> {
+    const url = id ? `${this.url}/${id}` : this.url;
+    return this.http.get<T[]>(url, { headers: this.headers });
+  }  
 
   /**
-   * Retrieves a single item from the API endpoint
-   * @param id - The ID of the item to retrieve
-   * @returns An Observable that emits an item of type T
-   */
-  get(id?: number): Observable<T> {
-    return this.http.get<T>(`${this.url}/${id}`, { headers: this.headers });
-  }
-
-  /**
-   * Creates a new item on the API endpoint
+   * Creates a new item 
    * @param item - The item to create
    * @returns An Observable that emits the created item of type T
    */
@@ -50,7 +45,7 @@ export class BaseService<T> {
   }
 
   /**
-   * Updates an existing item on the API endpoint
+   * Updates an existing item 
    * @param id - The ID of the item to update
    * @param item - The item to update
    * @returns An Observable that emits the updated item of type T
@@ -62,7 +57,7 @@ export class BaseService<T> {
   }
 
   /**
-   * Deletes an item from the API endpoint
+   * Deletes an item
    * @param id - The ID of the item to delete
    * @returns An Observable that emits nothing
    */
