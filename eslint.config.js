@@ -1,6 +1,12 @@
 const nx = require('@nx/eslint-plugin');
+const importPlugin = require('eslint-plugin-import');
 
 module.exports = [
+  {
+    plugins: {
+      import: importPlugin
+    }
+  },
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
@@ -23,6 +29,22 @@ module.exports = [
           ],
         },
       ],
+      'import/order': [
+        'error',
+        {
+          groups: [
+            ['builtin', 'external'],
+            'internal',
+            ['parent', 'sibling'],
+            'index'
+          ],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true
+          }
+        }
+      ]
     },
   },
   {
