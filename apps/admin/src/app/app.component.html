@@ -1,40 +1,48 @@
-<!-- Mobile nav (horizontal at top) -->
-<nav class="md:hidden fixed w-full top-0 left-0 bg-gray-900 border-b border-gray-700/50 z-50">
+<!-- Top bar (spans full width) -->
+<div class="fixed top-0 left-0 right-0 bg-gray-900 border-b border-gray-700/50 z-50">
    <div class="flex items-center justify-between p-4">
-      <!-- Logo -->
-      <h1>Admin</h1>
-
-      <!-- Mobile menu button -->
-      <button
-         (click)="isMenuOpen = !isMenuOpen"
-         class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-100 hover:bg-gray-800 focus:outline-none">
-         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-         </svg>
-      </button>
+      <div class="text-gray-100 font-semibold text-lg">Site Name</div>
+      <div class="flex items-center space-x-4">
+         <button class="text-gray-400 hover:text-gray-100">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+         </button>
+         <!-- Mobile menu button (only show on mobile) -->
+         <button
+            (click)="isMenuOpen = !isMenuOpen"
+            class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-100 hover:bg-gray-800 focus:outline-none">
+            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+         </button>
+      </div>
    </div>
+</div>
 
-   <!-- Mobile menu dropdown -->
-   <div *ngIf="isMenuOpen" class="border-t border-gray-700/50">
-      <div class="px-2 py-3 space-y-1">
+<!-- Mobile nav menu (shown when menu is open) -->
+<div class="md:hidden" [ngClass]="{'block': isMenuOpen, 'hidden': !isMenuOpen}">
+   <div class="fixed inset-0 bg-gray-800 bg-opacity-75 z-40" 
+        (click)="isMenuOpen = false"
+        (keydown.escape)="isMenuOpen = false"
+        tabindex="0">
+   </div>
+   <nav class="fixed top-16 inset-y-0 left-0 w-64 bg-gray-900 z-50">
+      <div class="flex flex-col space-y-2 p-4">
          <a
             *ngFor="let item of navItems"
             [routerLink]="item.route"
             routerLinkActive="bg-gray-800 text-gray-100"
-            class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:bg-gray-800 hover:text-gray-100">
+            class="px-3 py-2 rounded-md text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-gray-100">
             {{ item.label }}
          </a>
       </div>
-   </div>
-</nav>
+   </nav>
+</div>
 
 <!-- Desktop nav (vertical on left) -->
-<nav class="hidden md:block fixed h-full w-64 left-0 top-0 bg-gray-900 border-r border-gray-700/50 z-50">
+<nav class="hidden md:block fixed h-full w-64 left-0 top-16 bg-gray-900 border-r border-gray-700/50 z-40">
    <div class="flex flex-col h-full">
-      <!-- Logo -->
-      <div class="p-4 border-b border-gray-700/50">
-         <h1>Admin</h1>
-      </div>
 
       <!-- Desktop menu items -->
       <div class="flex flex-col space-y-2 p-4">
@@ -50,7 +58,7 @@
 </nav>
 
 <!-- Main content -->
-<main class="pt-[73px] md:pt-0 md:ml-64 min-h-screen bg-gray-900">
+<main class="pt-16 md:ml-64 min-h-screen bg-gray-900">
    <div class="p-8">
       <router-outlet></router-outlet>
    </div>

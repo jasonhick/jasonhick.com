@@ -109,17 +109,19 @@ export class ClientDetailComponent implements OnInit {
    }
 
    /**
-    * Handles form submission by saving the client data
+    * Saves or updates client data based on form submission
     *
     * @remarks
-    * This method performs the following:s
-    * 1. Checks if the form is valid
-    * 2. Gets the raw form values
-    * 3. Formats the dates from YYYY-MM-DD to ISO strings
-    * 4. Calls the client service to save the data
+    * This method performs the following:
+    * 1. Validates the form
+    * 2. Extracts id and form data from the form values
+    * 3. Creates a ClientCreate object with formatted dates
+    * 4. Calls appropriate service method based on whether it's a new or existing client
     *
     * The dates are converted from the HTML date input format (YYYY-MM-DD)
     * to ISO format required by the API
+    *
+    * If the form is invalid, no action is taken
     */
    public saveClient(): void {
       if (this.form.valid) {
@@ -134,7 +136,11 @@ export class ClientDetailComponent implements OnInit {
             end_date: formData.end_date ? new Date(formData.end_date).toISOString() : ''
          };
 
-         this.clientService.saveClient(data).subscribe();
+         if (id) {
+            this.clientService.updateClient({ id, ...data }).subscribe();
+         } else {
+            this.clientService.saveClient(data).subscribe();
+         }
       }
    }
 }

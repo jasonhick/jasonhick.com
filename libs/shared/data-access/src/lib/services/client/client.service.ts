@@ -6,7 +6,7 @@ import { BaseService } from '../base/base.service';
 import { Client } from '../data-contracts';
 
 export type ClientCreate = Omit<Client, 'id'>;
-export type ClientUpdate = Partial<Client>;
+export type ClientUpdate = Required<Pick<Client, 'id'>> & Omit<Client, 'id'>;
 
 @Injectable({
    providedIn: 'root'
@@ -72,12 +72,24 @@ export class ClientService extends BaseService<Client> {
    }
 
    /**
-    * Saves a client by either creating a new one or updating an existing one
+    * Saves a client by creating a new one
     * @param client - The client object to save
     * @returns An Observable that emits the saved client and triggers a refresh of the clients list
     */
    public saveClient(client: ClientCreate): Observable<Client> {
       return this.post(client).pipe(
+         take(1),
+         tap(() => this.getClients())
+      );
+   }
+
+   /**
+    * Updates an existing client
+    * @param client - The client object to update, containing id and updated fields
+    * @returns An Observable that emits the updated client and triggers a refresh of the clients list
+    */
+   public updateClient(client: ClientUpdate): Observable<Client> {
+      return this.put(client.id, client).pipe(
          take(1),
          tap(() => this.getClients())
       );
