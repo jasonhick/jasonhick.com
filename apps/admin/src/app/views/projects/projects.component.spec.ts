@@ -2,24 +2,24 @@ import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
-import { ClientsComponent } from './clients.component';
+import { ProjectsComponent } from './projects.component';
 
-describe('ClientsComponent', () => {
-   let component: ClientsComponent;
-   let fixture: ComponentFixture<ClientsComponent>;
+describe('ProjectsComponent', () => {
+   let component: ProjectsComponent;
+   let fixture: ComponentFixture<ProjectsComponent>;
    let route: { firstChild: { snapshot: { paramMap: Map<string, string> } } };
 
    beforeEach(async () => {
       route = {
          firstChild: {
             snapshot: {
-               paramMap: new Map().set('clientId', '123')
+               paramMap: new Map().set('projectId', '123')
             }
          }
       };
 
       await TestBed.configureTestingModule({
-         imports: [ClientsComponent],
+         imports: [ProjectsComponent],
          providers: [
             provideHttpClient(),
             {
@@ -29,7 +29,7 @@ describe('ClientsComponent', () => {
          ]
       }).compileComponents();
 
-      fixture = TestBed.createComponent(ClientsComponent);
+      fixture = TestBed.createComponent(ProjectsComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
    });
@@ -38,18 +38,18 @@ describe('ClientsComponent', () => {
       expect(component).toBeTruthy();
    });
 
-   it('should have a clientId$ observable with ID when route param exists', () => {
-      component.clientId$.subscribe((clientId) => {
-         expect(clientId).toBe('123');
+   it('should have a projectId$ observable with ID when route param exists', () => {
+      component.projectId$.subscribe((projectId) => {
+         expect(projectId).toBe('123');
       });
    });
 
-   it('should have a clientId$ observable with null when no route param exists', () => {
+   it('should have a projectId$ observable with null when no route param exists', () => {
       route.firstChild.snapshot.paramMap = new Map();
       fixture.detectChanges();
 
-      component.clientId$.subscribe((clientId) => {
-         expect(clientId).toBeNull();
+      component.projectId$.subscribe((projectId) => {
+         expect(projectId).toBeNull();
       });
    });
 });
