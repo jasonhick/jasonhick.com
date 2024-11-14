@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { catchError, Observable, of, take, tap } from 'rxjs';
 
@@ -16,8 +15,8 @@ export class ClientService extends BaseService<Client> {
    public readonly error$ = signal<string | null>(null);
    public readonly loading$ = signal<boolean>(false);
 
-   constructor(http: HttpClient) {
-      super(http);
+   constructor() {
+      super();
       this.setPath('clients');
    }
 

@@ -1,5 +1,7 @@
+@if (clients?.length) {
 <ul class="space-y-1">
-   <li *ngFor="let client of clients">
+   @for (client of clients; track client.id) {
+   <li>
       <a
          [routerLink]="['/clients', client.id]"
          [routerLinkActive]="['bg-gray-700', 'text-gray-100', 'border-gray-600']"
@@ -11,9 +13,11 @@
          </div>
       </a>
    </li>
+   }
    <li>
       <button type="button" [routerLink]="['/clients', 'add']">Add Client</button>
    </li>
 </ul>
-
-<div *ngIf="!clients?.length" class="empty-state">No clients found.</div>
+} @else {
+<div class="empty-state">No clients found.</div>
+}

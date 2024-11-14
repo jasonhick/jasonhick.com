@@ -1,37 +1,28 @@
-import { HttpClient } from '@angular/common/http';
-import { computed, Injectable, signal } from '@angular/core';
-import { catchError, of, take, tap, EMPTY } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
+import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';
 
 import { BaseService } from '../base/base.service';
 import { Skill } from '../data-contracts';
 
+export type SkillCreate = Omit<Skill, 'id'>;
+export type SkillUpdate = Required<Pick<Skill, 'id'>> & Omit<Skill, 'id'>;
 
 @Injectable({
    providedIn: 'root'
 })
 export class SkillService extends BaseService<Skill> {
-   private skillSignal = signal<Skill[]>([]);
-   public skills = computed(() => this.skillSignal.asReadonly());
+   public skills$ = signal<Skill[]>([]);
+   public error$ = signal<string | null>(null);
+   public loading$ = signal<boolean>(false);
 
-   skills$ = signal<Skill[]>([]);
-   loading$ = signal<boolean>(false);
-   error$ = signal<string | null>(null);
-
-   constructor(http: HttpClient) {
-      super(http);
+   constructor() {
+      super();
       this.setPath('skills');
    }
 
    /**
-    * getSkills: Fetches the list of skills from the API
-    *
-    * @description Makes an HTTP GET request to retrieve all skills
-    * @remarks
-    * - Sets loading state while request is in progress
-    * - Updates skills$ signal with response data on success
-    * - Sets error$ signal with error message on failure
-    * - Resets loading state when complete
-    * @returns {void}
+    * Fetches all skills from the API
     */
    public getSkills(): void {
       this.loading$.set(true);
@@ -39,56 +30,69 @@ export class SkillService extends BaseService<Skill> {
 
       this.get()
          .pipe(
-            take(1),
-            catchError((error) => {
-               this.error$.set(error);
+            tap((skills) => {
+               this.skills$.set(skills);
                this.loading$.set(false);
-               return of([]);
             }),
-            tap((data) => {
-               this.skills$.set(data);
-               this.loading$.set(false);
-            })
+            catchError(this.handleError.bind(this))
          )
          .subscribe();
    }
 
    /**
-    * saveSkill: Saves a skill to the API
-    *
-    * @param skill The skill object containing the data to save
-    * @description Makes an HTTP POST request to save the skill data
-    * @returns {void}
+    * Fetches a single skill by ID
+    * @param id - The ID of the skill to fetch
     */
-   public saveSkill(skill: Skill): void {
-      const currentSkills = this.skills$();
+   public getSkill(id: number): Observable<Skill> {
+      return this.get(id).pipe(catchError(this.handleError.bind(this)));
+   }
 
-      // Optimistically update the UI
-      if (skill.id) {
-         // Update existing skill
-         this.skills$.set(currentSkills.map((s) => (s.id === skill.id ? skill : s)));
-      } else {
-         // Add new skill
-         this.skills$.set([...currentSkills, { ...skill, id: Date.now() }]);
-      }
+   /**
+    * Creates a new skill
+    * @param skill - The skill data to create
+    */
+   public createSkill(skill: SkillCreate): Observable<Skill> {
+      return this.post(skill).pipe(
+         tap((newSkill) => {
+            this.skills$.update((skills) => [...skills, newSkill]);
+         }),
+         catchError(this.handleError.bind(this))
+      );
+   }
 
-      this.post(skill)
-         .pipe(
-            take(1),
-            catchError((error) => {
-               // On error, revert to original state and refresh
-               this.error$.set(error);
-               this.getSkills();
-               return EMPTY;
-            })
-         )
-         .subscribe((savedSkill) => {
-            // Update with the actual saved skill from the server
-            this.skills$.set(
-               skill.id
-                  ? currentSkills.map((s) => (s.id === skill.id ? savedSkill : s))
-                  : [...currentSkills, savedSkill]
-            );
-         });
+   /**
+    * Updates an existing skill
+    * @param skill - The skill data to update
+    */
+   public updateSkill(skill: SkillUpdate): Observable<Skill> {
+      return this.put(skill.id, skill).pipe(
+         tap((updatedSkill) => {
+            this.skills$.update((skills) => skills.map((s) => (s.id === updatedSkill.id ? updatedSkill : s)));
+         }),
+         catchError(this.handleError.bind(this))
+      );
+   }
+
+   /**
+    * Deletes a skill
+    * @param id - The ID of the skill to delete
+    */
+   public deleteSkill(id: number): Observable<void> {
+      return this.delete(id).pipe(
+         tap(() => {
+            this.skills$.update((skills) => skills.filter((s) => s.id !== id));
+         }),
+         catchError(this.handleError.bind(this))
+      );
+   }
+
+   /**
+    * Handles HTTP errors
+    * @param error - The error to handle
+    */
+   private handleError(error: HttpErrorResponse) {
+      this.error$.set(error.message || 'An error occurred');
+      this.loading$.set(false);
+      return throwError(() => error);
    }
 }

@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
 import { catchError, of, take, tap } from 'rxjs';
 
 import { BaseService } from '../base/base.service';
 import { Project } from '../data-contracts';
-
 
 @Injectable({
    providedIn: 'root'
@@ -17,8 +15,8 @@ export class ProjectService extends BaseService<Project> {
    loading$ = signal<boolean>(false);
    error$ = signal<string | null>(null);
 
-   constructor(http: HttpClient) {
-      super(http);
+   constructor() {
+      super();
       this.setPath('projects');
    }
 

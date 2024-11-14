@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class BaseService<T> {
    protected url: string;
    protected headers: HttpHeaders;
+   protected http: HttpClient;
 
-   constructor(protected http: HttpClient) {
+   constructor() {
+      this.http = inject(HttpClient);
       this.url = '';
       this.headers = new HttpHeaders({
          'Content-Type': 'application/json'

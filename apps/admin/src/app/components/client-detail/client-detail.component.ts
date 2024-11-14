@@ -15,23 +15,17 @@ import { FormFieldComponent } from '../form-field/form-field.component';
    templateUrl: './client-detail.component.html'
 })
 export class ClientDetailComponent implements OnInit {
+   private fb = inject(FormBuilder);
    private route = inject(ActivatedRoute);
    private clientService = inject(ClientService);
 
    public buttonText = 'Save Client';
    public client$ = this.fetchClient();
    public form!: FormGroup;
-   public fb = inject(FormBuilder);
 
    /**
-    * Lifecycle hook that is called after data-bound properties are initialized.
-    *
-    * @remarks
-    * The form initialization and client data fetching are split into separate private methods
-    * for better separation of concerns and testability.
-    *
+    * Initializes form after component is created
     * @see initForm
-    * @see getClient
     */
    public ngOnInit(): void {
       this.initForm();
@@ -53,19 +47,19 @@ export class ClientDetailComponent implements OnInit {
    }
 
    /**
-    * Fetches client data based on the route parameter and updates the form
+    * Fetches a client based on the route parameter 'clientId'.
+    * If clientId exists, retrieves the client from the service.
+    * Resets form and updates button text based on whether editing existing or creating new.
     *
     * @remarks
     * This method performs the following steps:
     * 1. Extracts and parses the clientId from route params
-    * 2. Resets form if no clientId is present
-    * 3. Fetches client data if clientId exists
-    * 4. Updates form with fetched client data
+    * 2. Resets the form and sets default button text
+    * 3. If clientId exists, fetches client data from service
+    * 4. Updates form with client data if found
     *
-    * The method uses RxJS operators to handle the asynchronous flow:
-    * - map: Transforms route params into clientId
-    * - switchMap: Switches to client data stream
-    * - tap: Updates form with client data or resets form if no client data is fetched
+    * @returns Observable that emits the fetched Client or null if creating new
+    * @see ClientService.getClient
     */
    private fetchClient(): Observable<Client | null> {
       return this.route.params.pipe(

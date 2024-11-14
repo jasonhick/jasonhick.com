@@ -1,9 +1,23 @@
+@if (skills?.length) {
 <ul class="space-y-2">
-   <li *ngFor="let skill of skills" class="p-2 hover:bg-slate-100 rounded cursor-pointer">
-      <a [routerLink]="['/skills', skill.id]">
-         {{ skill.name }}
+   @for (skill of skills; track skill.id) {
+   <li>
+      <a
+         [routerLink]="['/skills', skill.id]"
+         [routerLinkActive]="['bg-gray-700', 'text-gray-100', 'border-gray-600']"
+         class="list-item">
+         <div class="flex items-center">
+            <span class="text-sm text-inherit">
+               {{ skill.name }}
+            </span>
+         </div>
       </a>
    </li>
+   }
+   <li>
+      <button type="button" [routerLink]="['/skills', 'add']">Add Skill</button>
+   </li>
 </ul>
-
-<div *ngIf="!skills?.length" class="text-gray-500">No skills found.</div>
+} @else {
+<div class="text-gray-500">No skills found.</div>
+}

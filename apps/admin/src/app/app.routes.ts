@@ -51,14 +51,8 @@ export const routes: Routes = [
       component: VIEWS.SkillsComponent,
       children: [
          {
-            path: '',
-            component: COMPONENTS.SkillListComponent,
-            children: [
-               {
-                  path: ':skillId',
-                  component: COMPONENTS.SkillDetailComponent
-               }
-            ]
+            path: ':skillId',
+            component: COMPONENTS.SkillDetailComponent
          }
       ]
    }
