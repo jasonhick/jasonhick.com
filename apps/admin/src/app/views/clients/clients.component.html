@@ -1,26 +1,30 @@
-<h1>Clients</h1>
-<hr class="mb-6 border-gray-700/50" />
-
-@if (error$()) {
-<div class="text-red-400">{{ error$() }}</div>
-} @else {
 <!-- Client Container -->
 <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-12 md:gap-6">
+
    <!-- Client List -->
-   <div class="md:col-span-4">
+   <div class="md:col-span-2">
       <div class="card">
          <div class="card-header">
-            <h2 class="card-title">Client List</h2>
+            <h2 class="card-title">Clients</h2>
          </div>
          <div class="card-body">
-            <app-client-list [clients]="clients$()"></app-client-list>
+            <app-client-list></app-client-list>
          </div>
       </div>
    </div>
 
    <!-- Client Detail -->
-   <div class="md:col-span-8">
-      <router-outlet></router-outlet>
-   </div>
+   @if (clientId$ | async; as clientId) {
+      <div class="md:col-span-8">
+         <div class="card">
+            <div class="card-header">
+               <h2 class="card-title">Client Detail</h2>
+            </div>
+            <div class="card-body">
+               <router-outlet></router-outlet>
+            </div>
+         </div>
+      </div>
+   }
+
 </div>
-}

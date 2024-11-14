@@ -1,40 +1,27 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Project, ProjectService } from '@jasonhick.com/data-access';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map, startWith } from 'rxjs/operators';
 
-import * as COMPONENTS from '../../components';
+import { ProjectListComponent } from '../../components';
 
 @Component({
    selector: 'app-projects',
    standalone: true,
-   imports: [CommonModule, COMPONENTS.ProjectListComponent, COMPONENTS.ProjectDetailComponent, RouterOutlet],
-   providers: [ProjectService],
+   imports: [AsyncPipe, ProjectListComponent, RouterOutlet],
    templateUrl: './projects.component.html'
 })
-export class ProjectsComponent implements OnInit {
-   projects$ = signal<Project[]>([]);
-   loading$ = signal<boolean>(false);
-   error$ = signal<string | null>(null);
+export class ProjectsComponent {
+   private route = inject(ActivatedRoute);
+   private router = inject(Router);
 
-   constructor(private projectService: ProjectService) {
-      this.projects$ = this.projectService.projects$;
-      this.loading$ = this.projectService.loading$;
-      this.error$ = this.projectService.error$;
-   }
-
-   /**
-    * Lifecycle hook that is called when the component is initialized.
+   /*
+    * Track the current project ID from the child route parameters
+    * so we can conditionally render the project detail panel
     */
-   ngOnInit(): void {
-      this.projectService.getProjects();
-   }
-
-   /**
-    * Saves a project.
-    * @param project - The project to save.
-    */
-   saveProject(project: Project): void {
-      this.projectService.saveProject(project);
-   }
+   projectId$ = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.route.firstChild?.snapshot.paramMap.get('projectId') ?? null)
+   );
 }

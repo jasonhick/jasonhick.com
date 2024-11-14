@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { Skill } from '@jasonhick.com/data-access';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SkillService } from '@jasonhick.com/data-access';
 
 @Component({
    selector: 'app-skill-list',
@@ -10,6 +10,11 @@ import { Skill } from '@jasonhick.com/data-access';
    templateUrl: './skill-list.component.html'
 })
 export class SkillListComponent {
-   @Input() skills: Skill[] = [];
-   public router = inject(Router);
+   private skillService = inject(SkillService);
+
+   public readonly skills$ = this.skillService.skills$;
+
+   constructor() {
+      this.skillService.getSkills();
+   }
 }

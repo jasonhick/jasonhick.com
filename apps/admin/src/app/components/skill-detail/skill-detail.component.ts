@@ -19,7 +19,7 @@ export class SkillDetailComponent implements OnInit {
    private route = inject(ActivatedRoute);
    private skillService = inject(SkillService);
 
-   public buttonText = 'Save Skill';
+   public buttonText = 'Save';
    public skill$ = this.fetchSkill();
    public form!: FormGroup;
 
@@ -61,7 +61,7 @@ export class SkillDetailComponent implements OnInit {
          map((params) => (params['skillId'] ? parseInt(params['skillId'], 10) : null)),
          tap(() => {
             this.form.reset();
-            this.buttonText = 'Save Skill';
+            this.buttonText = 'Save';
          }),
          switchMap((skillId) => {
             if (!skillId) return of(null);
@@ -70,7 +70,7 @@ export class SkillDetailComponent implements OnInit {
          tap((skill) => {
             if (skill) {
                this.form.patchValue(skill);
-               this.buttonText = 'Update Skill';
+               this.buttonText = 'Update';
             }
          })
       );

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { Observable, catchError, switchMap, tap, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 
 import { BaseService } from '../base/base.service';
 import { Skill } from '../data-contracts';

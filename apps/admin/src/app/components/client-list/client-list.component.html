@@ -1,23 +1,25 @@
-@if (clients?.length) {
-<ul class="space-y-1">
-   @for (client of clients; track client.id) {
-   <li>
-      <a
-         [routerLink]="['/clients', client.id]"
-         [routerLinkActive]="['bg-gray-700', 'text-gray-100', 'border-gray-600']"
-         class="list-item">
-         <div class="flex items-center">
-            <span class="text-sm text-inherit">
-               {{ client.name }}
-            </span>
-         </div>
-      </a>
-   </li>
-   }
-   <li>
-      <button type="button" [routerLink]="['/clients', 'add']">Add Client</button>
-   </li>
-</ul>
-} @else {
-<div class="empty-state">No clients found.</div>
+@if (clients$()?.length === 0) {
+   <div class="text-gray-500">No clients found.</div>
+}
+
+@if (clients$(); as clients) {
+   <ul class="space-y-2">
+      @for (client of clients; track client.id) {
+         <li>
+            <a
+               [routerLink]="['/clients', client.id]"
+               [routerLinkActive]="['bg-gray-700', 'text-gray-100', 'border-gray-600']"
+               class="list-item">
+               <div class="flex items-center">
+                  <span class="text-sm text-inherit">
+                     {{ client.name }}
+                  </span>
+               </div>
+            </a>
+         </li>
+      }
+      <li>
+         <button type="button" [routerLink]="['/clients', 'add']" class="mt-4">New Client</button>
+      </li>
+   </ul>
 }

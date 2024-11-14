@@ -1,20 +1,30 @@
-<h1>Projects</h1>
-
-<div *ngIf="loading$(); else content">Loading...</div>
-
-<ng-template #content>
-   <div *ngIf="error$(); else dataContent">
-      {{ error$() }}
-   </div>
-
-   <ng-template #dataContent>
-      <div class="grid grid-cols-[350px_1fr] gap-4">
-         <div class="bg-slate-50 rounded-lg p-6 border border-slate-300 border-solid">
-            <app-project-list [projects]="projects$()"></app-project-list>
+<!-- Projects Container -->
+<div class="space-y-4 md:space-y-0 md:grid md:grid-cols-12 md:gap-6">
+   
+   <!-- Projects List -->
+   <div class="md:col-span-2">
+      <div class="card">
+         <div class="card-header">
+            <h2 class="card-title">Projects</h2>
          </div>
-         <div class="bg-slate-50 rounded-lg p-6 border border-slate-300 border-solid">
-            <app-project-detail (submitted)="saveProject($event)"></app-project-detail>
+         <div class="card-body">
+            <app-project-list/>
          </div>
       </div>
-   </ng-template>
-</ng-template>
+   </div>
+
+   <!-- Project Detail -->
+   @if (projectId$ | async; as projectId) {
+      <div class="md:col-span-8">
+         <div class="card">
+            <div class="card-header">
+               <h2 class="card-title">Project Detail</h2>
+         </div>
+         <div class="card-body">
+               <router-outlet></router-outlet>
+            </div>
+         </div>
+      </div>
+   }
+
+</div>

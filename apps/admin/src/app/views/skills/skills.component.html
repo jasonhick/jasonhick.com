@@ -1,26 +1,30 @@
-<h1>Skills</h1>
-<hr class="mb-6 border-gray-700/50" />
-
-@if (error$()) {
-<div class="text-red-400">{{ error$() }}</div>
-} @else {
 <!-- Skills Container -->
 <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-12 md:gap-6">
+
    <!-- Skills List -->
-   <div class="md:col-span-4">
+   <div class="md:col-span-2">
       <div class="card">
          <div class="card-header">
-            <h2 class="card-title">Skills List</h2>
+            <h2 class="card-title">Skills</h2>
          </div>
          <div class="card-body">
-            <app-skill-list [skills]="skills$()"></app-skill-list>
+            <app-skill-list/>
          </div>
       </div>
    </div>
 
    <!-- Skill Detail -->
-   <div class="md:col-span-8">
-      <router-outlet></router-outlet>
-   </div>
+   @if (skillId$ | async; as skillId) {
+      <div class="md:col-span-8">
+         <div class="card">
+         <div class="card-header">
+            <h2 class="card-title">Skill Detail</h2>
+         </div>
+         <div class="card-body">
+            <router-outlet></router-outlet>
+         </div>
+         </div>
+      </div>   
+   }
+
 </div>
-}

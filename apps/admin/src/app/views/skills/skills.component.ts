@@ -1,24 +1,27 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { SkillService } from '@jasonhick.com/data-access';
+import { AsyncPipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map, startWith } from 'rxjs/operators';
 
-import * as COMPONENTS from '../../components';
+import { SkillListComponent } from '../../components';
 
 @Component({
    selector: 'app-skills',
    standalone: true,
-   imports: [CommonModule, COMPONENTS.SkillListComponent, COMPONENTS.SkillDetailComponent, RouterOutlet],
-   providers: [SkillService],
+   imports: [AsyncPipe, SkillListComponent, RouterOutlet],
    templateUrl: './skills.component.html'
 })
-export class SkillsComponent implements OnInit {
-   private skillService = inject(SkillService);
+export class SkillsComponent {
+   private route = inject(ActivatedRoute);
+   private router = inject(Router);
 
-   public skills$ = this.skillService.skills$;
-   public error$ = this.skillService.error$;
-
-   ngOnInit(): void {
-      this.skillService.getSkills();
-   }
+   /*
+    * Track the current skill ID from the child route parameters
+    * so we can conditionally render the skill detail panel
+    */
+   skillId$ = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.route.firstChild?.snapshot.paramMap.get('skillId') ?? null)
+   );
 }

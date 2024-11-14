@@ -1,9 +1,25 @@
-<ul class="space-y-2">
-   <li *ngFor="let project of projects" class="p-2 hover:bg-slate-100 rounded cursor-pointer">
-      <a [routerLink]="['/projects', project.id]">
-         {{ project.title }}
-      </a>
-   </li>
-</ul>
+@if (projects$()?.length === 0) {
+   <div class="text-gray-500">No projects found.</div>
+}
 
-<div *ngIf="!projects?.length" class="text-gray-500">No projects found.</div>
+@if (projects$(); as projects) {
+   <ul class="space-y-2">
+      @for (project of projects; track project.id) {
+         <li>
+            <a
+               [routerLink]="['/projects', project.id]"
+               [routerLinkActive]="['bg-gray-700', 'text-gray-100', 'border-gray-600']"
+               class="list-item">
+               <div class="flex items-center">
+                  <span class="text-sm text-inherit">
+                     {{ project.title }}
+                  </span>
+               </div>
+            </a>
+         </li>
+      }
+      <li>
+         <button type="button" [routerLink]="['/projects', 'add']" class="mt-4">New Project</button>
+      </li>
+   </ul>
+}

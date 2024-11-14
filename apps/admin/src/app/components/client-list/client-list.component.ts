@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { Client } from '@jasonhick.com/data-access';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { ClientService } from '@jasonhick.com/data-access';
 
 @Component({
    selector: 'app-client-list',
@@ -10,6 +10,11 @@ import { Client } from '@jasonhick.com/data-access';
    templateUrl: './client-list.component.html'
 })
 export class ClientListComponent {
-   @Input() clients: Client[] = [];
-   public router = inject(Router);
+   private clientService = inject(ClientService);
+
+   public readonly clients$ = this.clientService.clients$;
+
+   constructor() {
+      this.clientService.getClients();
+   }
 }

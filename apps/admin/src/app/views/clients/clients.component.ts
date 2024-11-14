@@ -1,27 +1,27 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import {  RouterOutlet } from '@angular/router';
-import {  ClientService } from '@jasonhick.com/data-access';
+import { RouterOutlet, ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { filter, map, startWith } from 'rxjs/operators';
 
-import { ClientDetailComponent } from '../../components/client-detail/client-detail.component';
 import { ClientListComponent } from '../../components/client-list/client-list.component';
-
 
 @Component({
    selector: 'app-clients',
    standalone: true,
-   imports: [CommonModule, ClientListComponent, ClientDetailComponent, RouterOutlet],
-   providers: [ClientService],
+   imports: [ClientListComponent, RouterOutlet, AsyncPipe],
    templateUrl: './clients.component.html'
 })
-export class ClientsComponent  {
-   private clientService = inject(ClientService);
-   
-   public clients$ = this.clientService.clients$;
-   public error$ = this.clientService.error$;
+export class ClientsComponent {
+   private route = inject(ActivatedRoute);
+   private router = inject(Router);
 
-   ngOnInit(): void {
-      this.clientService.getClients();
-   }
-
+   /*
+    * Track the current client ID from the child route parameters
+    * so we can conditionally render the client detail panel
+    */
+   clientId$ = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.route.firstChild?.snapshot.paramMap.get('clientId') ?? null)
+   );
 }
