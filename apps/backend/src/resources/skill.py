@@ -36,7 +36,7 @@ class SkillList(Resource):
     @skill_ns.doc("list_skills")
     def get(self):
         """List all skills."""
-        return Skill.query.all()
+        return Skill.query.order_by(db.func.lower(Skill.name)).all()
 
     @skill_ns.marshal_with(skill_model)
     @skill_ns.doc("create_skill")
@@ -46,7 +46,7 @@ class SkillList(Resource):
         args = skill_parser.parse_args()
 
         # Check for unique name constraint
-        if Skill.query.filter_by(name=args["name"]).first():
+        if Skill.query.filter(db.func.lower(Skill.name) == db.func.lower(args["name"])).first():
             skill_ns.abort(400, "A skill with this name already exists")
 
         skill = Skill(**args)

@@ -19,14 +19,8 @@ export const routes: Routes = [
       component: VIEWS.ProjectsComponent,
       children: [
          {
-            path: '',
-            component: COMPONENTS.ProjectListComponent,
-            children: [
-               {
-                  path: ':projectId',
-                  component: COMPONENTS.ProjectDetailComponent
-               }
-            ]
+            path: ':projectId',
+            component: COMPONENTS.ProjectDetailComponent
          }
       ]
    },

@@ -1,0 +1,22 @@
+@if (selectedSkill(); as skill) {
+   <h3>Editing: {{ skill.name }}</h3>
+} @else {
+   <h3>Adding: New Skill</h3>
+}
+
+<form [formGroup]="form" (ngSubmit)="saveSkill()">
+   <div class="grid grid-cols-1 gap-4">
+      <app-form-field id="name" label="Name" [form]="form" [required]="true">
+         <input id="name" type="text" formControlName="name" />
+      </app-form-field>
+
+      <div class="flex w-full">
+         <div class="flex-1">
+            <button type="button" (click)="deleteSkill()" [disabled]="!selectedSkill() || form.invalid">Delete</button>
+         </div>
+         <div class="flex-1 text-right">
+            <button type="submit" [disabled]="!form.valid">{{ buttonText() }}</button>
+         </div>
+      </div>
+   </div>
+</form>

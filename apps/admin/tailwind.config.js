@@ -52,7 +52,7 @@ module.exports = {
           '@apply bg-green-600 text-white font-semibold py-3 px-6 rounded-lg': {},
           '@apply hover:bg-green-700 transition-colors': {},
           '@apply focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2': {},
-          '@apply disabled:opacity-75 disabled:cursor-not-allowed': {},
+          '@apply disabled:opacity-75 disabled:cursor-not-allowed disabled:bg-gray-600 disabled:hover:bg-gray-600': {},
         },
         'label': {
           '@apply block text-sm font-semibold text-violet-100 mb-2': {},
