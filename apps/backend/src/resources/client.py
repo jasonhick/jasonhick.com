@@ -14,8 +14,10 @@ client_model = client_ns.model(
         "id": fields.Integer(readonly=True, description="Client ID"),
         "name": fields.String(required=True, description="Client name"),
         "description": fields.String(description="Client description"),
+        "features": fields.List(fields.String, description="Client features"),
+        "location": fields.String(description="Client location"),
+        "role": fields.String(description="Role at client"),
         "website": fields.String(description="Client website URL"),
-        "logo_url": fields.String(description="Client logo URL"),
         "start_date": fields.DateTime(description="Project start date"),
         "end_date": fields.DateTime(description="Project end date"),
         "created_at": fields.DateTime(readonly=True),
@@ -44,8 +46,10 @@ client_parser.add_argument(
     "name", type=str, required=True, help="Name is required"
 )
 client_parser.add_argument("description", type=str)
+client_parser.add_argument("features", type=list)
+client_parser.add_argument("location", type=str)
+client_parser.add_argument("role", type=str)
 client_parser.add_argument("website", type=str)
-client_parser.add_argument("logo_url", type=str)
 client_parser.add_argument("start_date", type=parse_datetime)
 client_parser.add_argument("end_date", type=parse_datetime)
 

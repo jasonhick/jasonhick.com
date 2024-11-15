@@ -1,0 +1,691 @@
+{
+  "swagger": "2.0",
+  "basePath": "/api",
+  "paths": {
+    "/clients/": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        },
+        "summary": "Create a new client",
+        "operationId": "create_client",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        ],
+        "tags": [
+          "clients"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Client"
+              }
+            }
+          }
+        },
+        "summary": "List all clients",
+        "operationId": "list_clients",
+        "tags": [
+          "clients"
+        ]
+      }
+    },
+    "/clients/{client_id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "description": "The client identifier",
+          "name": "client_id",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Client deleted"
+          }
+        },
+        "summary": "Delete a client",
+        "operationId": "delete_client",
+        "tags": [
+          "clients"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        },
+        "summary": "Fetch a client by ID",
+        "operationId": "get_client",
+        "tags": [
+          "clients"
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        },
+        "summary": "Update a client",
+        "operationId": "update_client",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        ],
+        "tags": [
+          "clients"
+        ]
+      }
+    },
+    "/project-images/": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ProjectImage"
+            }
+          }
+        },
+        "summary": "Create a new project image",
+        "operationId": "create_project_image",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ProjectImage"
+            }
+          }
+        ],
+        "tags": [
+          "project-images"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProjectImage"
+              }
+            }
+          }
+        },
+        "summary": "List all project images",
+        "operationId": "list_project_images",
+        "tags": [
+          "project-images"
+        ]
+      }
+    },
+    "/project-images/{image_id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "description": "The project image identifier",
+          "name": "image_id",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Project image deleted"
+          }
+        },
+        "summary": "Delete a project image",
+        "operationId": "delete_project_image",
+        "tags": [
+          "project-images"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ProjectImage"
+            }
+          }
+        },
+        "summary": "Fetch a project image by ID",
+        "operationId": "get_project_image",
+        "tags": [
+          "project-images"
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ProjectImage"
+            }
+          }
+        },
+        "summary": "Update a project image",
+        "operationId": "update_project_image",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ProjectImage"
+            }
+          }
+        ],
+        "tags": [
+          "project-images"
+        ]
+      }
+    },
+    "/projects/": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        },
+        "summary": "Create a new project",
+        "operationId": "create_project",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "tags": [
+          "projects"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
+            }
+          }
+        },
+        "summary": "List all projects",
+        "operationId": "list_projects",
+        "tags": [
+          "projects"
+        ]
+      }
+    },
+    "/projects/{project_id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "description": "The project identifier",
+          "name": "project_id",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Project deleted"
+          }
+        },
+        "summary": "Delete a project",
+        "operationId": "delete_project",
+        "tags": [
+          "projects"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        },
+        "summary": "Fetch a project by ID",
+        "operationId": "get_project",
+        "tags": [
+          "projects"
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        },
+        "summary": "Update a project",
+        "operationId": "update_project",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        ],
+        "tags": [
+          "projects"
+        ]
+      }
+    },
+    "/skills/": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
+          }
+        },
+        "summary": "Create a new skill",
+        "operationId": "create_skill",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
+          }
+        ],
+        "tags": [
+          "skills"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Skill"
+              }
+            }
+          }
+        },
+        "summary": "List all skills",
+        "operationId": "list_skills",
+        "tags": [
+          "skills"
+        ]
+      }
+    },
+    "/skills/{skill_id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "description": "The skill identifier",
+          "name": "skill_id",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Skill deleted"
+          }
+        },
+        "summary": "Delete a skill",
+        "operationId": "delete_skill",
+        "tags": [
+          "skills"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
+          }
+        },
+        "summary": "Fetch a skill by ID",
+        "operationId": "get_skill",
+        "tags": [
+          "skills"
+        ]
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
+          }
+        },
+        "summary": "Update a skill",
+        "operationId": "update_skill",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
+          }
+        ],
+        "tags": [
+          "skills"
+        ]
+      }
+    },
+    "/swagger.json": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "operationId": "get_swagger_json",
+        "tags": [
+          "default"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Portfolio API",
+    "version": "1.0",
+    "description": "A portfolio management API"
+  },
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "default",
+      "description": "Default namespace"
+    },
+    {
+      "name": "clients",
+      "description": "Client operations"
+    },
+    {
+      "name": "projects",
+      "description": "Project operations"
+    },
+    {
+      "name": "project-images",
+      "description": "Project image operations"
+    },
+    {
+      "name": "skills",
+      "description": "Skill operations"
+    }
+  ],
+  "definitions": {
+    "Client": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Client ID",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Client name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Client description"
+        },
+        "features": {
+          "type": "array",
+          "description": "Client features",
+          "items": {
+            "type": "string"
+          }
+        },
+        "location": {
+          "type": "string",
+          "description": "Client location"
+        },
+        "role": {
+          "type": "string",
+          "description": "Role at client"
+        },
+        "website": {
+          "type": "string",
+          "description": "Client website URL"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Project start date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Project end date"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      },
+      "type": "object"
+    },
+    "Project": {
+      "required": [
+        "description",
+        "end_date",
+        "start_date",
+        "thumbnail_url",
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "title": {
+          "type": "string",
+          "description": "Project title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Project description"
+        },
+        "features": {
+          "type": "array",
+          "description": "Project features",
+          "items": {
+            "type": "string"
+          }
+        },
+        "thumbnail_url": {
+          "type": "string",
+          "description": "Thumbnail URL"
+        },
+        "live_url": {
+          "type": "string",
+          "description": "Live project URL"
+        },
+        "github_url": {
+          "type": "string",
+          "description": "GitHub repository URL"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Project start date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Project end date"
+        },
+        "is_featured": {
+          "type": "boolean",
+          "description": "Featured project status"
+        },
+        "client_id": {
+          "type": "integer",
+          "description": "Associated client ID"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      },
+      "type": "object"
+    },
+    "ProjectImage": {
+      "required": [
+        "project_id",
+        "url"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "url": {
+          "type": "string",
+          "description": "Image URL"
+        },
+        "caption": {
+          "type": "string",
+          "description": "Image caption"
+        },
+        "order": {
+          "type": "integer",
+          "description": "Display order"
+        },
+        "project_id": {
+          "type": "integer",
+          "description": "Associated project ID"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      },
+      "type": "object"
+    },
+    "Skill": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Skill name"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      },
+      "type": "object"
+    }
+  },
+  "responses": {
+    "ParseError": {
+      "description": "When a mask can't be parsed"
+    },
+    "MaskError": {
+      "description": "When any error occurs on mask"
+    }
+  },
+  "host": "127.0.0.1:5000"
+}
