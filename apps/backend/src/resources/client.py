@@ -62,16 +62,31 @@ class ClientList(Resource):
         """List all clients"""
         return Client.query.all()
 
-    @client_ns.marshal_with(client_model)
-    @client_ns.doc("create_client")
     @client_ns.expect(client_model)
+    @client_ns.marshal_with(client_model)
     def post(self):
-        """Create a new client"""
-        args = client_parser.parse_args()
-        client = Client(**args)
+        data = client_ns.payload
+        
+        # Ensure features is a list of strings, not individual characters
+        if isinstance(data.get('features'), list):
+            features = data['features']
+        else:
+            features = []
+
+        client = Client(
+            name=data['name'],
+            description=data.get('description'),
+            features=features,  # This will now be a proper list
+            location=data.get('location'),
+            role=data.get('role'),
+            website=data.get('website'),
+            start_date=parse_datetime(data.get('start_date')),
+            end_date=parse_datetime(data.get('end_date'))
+        )
+        
         db.session.add(client)
         db.session.commit()
-        return client, 201
+        return client
 
 
 @client_ns.route("/<int:client_id>")
@@ -89,10 +104,24 @@ class ClientResource(Resource):
     def put(self, client_id):
         """Update a client"""
         client = Client.query.get_or_404(client_id)
-        args = client_parser.parse_args()
-        for key, value in args.items():
-            if value is not None:
-                setattr(client, key, value)
+        data = client_ns.payload
+
+        # Ensure features is a list of strings, not individual characters
+        if isinstance(data.get('features'), list):
+            features = data['features']
+        else:
+            features = []
+
+        # Update client fields
+        client.name = data['name']
+        client.description = data.get('description')
+        client.features = features
+        client.location = data.get('location')
+        client.role = data.get('role')
+        client.website = data.get('website')
+        client.start_date = parse_datetime(data.get('start_date'))
+        client.end_date = parse_datetime(data.get('end_date'))
+
         db.session.commit()
         return client
 

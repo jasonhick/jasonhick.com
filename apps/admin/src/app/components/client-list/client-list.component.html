@@ -1,6 +1,6 @@
-@if (clients$()?.length === 0) {
-   <div class="text-gray-500">No clients found.</div>
-}
+@if (clients$().length === 0) {
+   <p>No clients found</p>
+} 
 
 @if (clients$(); as clients) {
    <ul class="space-y-2">

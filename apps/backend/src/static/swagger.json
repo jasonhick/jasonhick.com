@@ -3,31 +3,6 @@
   "basePath": "/api",
   "paths": {
     "/clients/": {
-      "post": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Client"
-            }
-          }
-        },
-        "summary": "Create a new client",
-        "operationId": "create_client",
-        "parameters": [
-          {
-            "name": "payload",
-            "required": true,
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/Client"
-            }
-          }
-        ],
-        "tags": [
-          "clients"
-        ]
-      },
       "get": {
         "responses": {
           "200": {
@@ -45,6 +20,30 @@
         "tags": [
           "clients"
         ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        },
+        "operationId": "post_client_list",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        ],
+        "tags": [
+          "clients"
+        ]
       }
     },
     "/clients/{client_id}": {
@@ -57,18 +56,6 @@
           "type": "integer"
         }
       ],
-      "delete": {
-        "responses": {
-          "204": {
-            "description": "Client deleted"
-          }
-        },
-        "summary": "Delete a client",
-        "operationId": "delete_client",
-        "tags": [
-          "clients"
-        ]
-      },
       "get": {
         "responses": {
           "200": {
@@ -80,6 +67,18 @@
         },
         "summary": "Fetch a client by ID",
         "operationId": "get_client",
+        "tags": [
+          "clients"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Client deleted"
+          }
+        },
+        "summary": "Delete a client",
+        "operationId": "delete_client",
         "tags": [
           "clients"
         ]
@@ -111,6 +110,24 @@
       }
     },
     "/project-images/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProjectImage"
+              }
+            }
+          }
+        },
+        "summary": "List all project images",
+        "operationId": "list_project_images",
+        "tags": [
+          "project-images"
+        ]
+      },
       "post": {
         "responses": {
           "200": {
@@ -135,24 +152,6 @@
         "tags": [
           "project-images"
         ]
-      },
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ProjectImage"
-              }
-            }
-          }
-        },
-        "summary": "List all project images",
-        "operationId": "list_project_images",
-        "tags": [
-          "project-images"
-        ]
       }
     },
     "/project-images/{image_id}": {
@@ -165,18 +164,6 @@
           "type": "integer"
         }
       ],
-      "delete": {
-        "responses": {
-          "204": {
-            "description": "Project image deleted"
-          }
-        },
-        "summary": "Delete a project image",
-        "operationId": "delete_project_image",
-        "tags": [
-          "project-images"
-        ]
-      },
       "get": {
         "responses": {
           "200": {
@@ -188,6 +175,18 @@
         },
         "summary": "Fetch a project image by ID",
         "operationId": "get_project_image",
+        "tags": [
+          "project-images"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Project image deleted"
+          }
+        },
+        "summary": "Delete a project image",
+        "operationId": "delete_project_image",
         "tags": [
           "project-images"
         ]
@@ -219,6 +218,24 @@
       }
     },
     "/projects/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
+            }
+          }
+        },
+        "summary": "List all projects",
+        "operationId": "list_projects",
+        "tags": [
+          "projects"
+        ]
+      },
       "post": {
         "responses": {
           "200": {
@@ -243,24 +260,6 @@
         "tags": [
           "projects"
         ]
-      },
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Project"
-              }
-            }
-          }
-        },
-        "summary": "List all projects",
-        "operationId": "list_projects",
-        "tags": [
-          "projects"
-        ]
       }
     },
     "/projects/{project_id}": {
@@ -273,18 +272,6 @@
           "type": "integer"
         }
       ],
-      "delete": {
-        "responses": {
-          "204": {
-            "description": "Project deleted"
-          }
-        },
-        "summary": "Delete a project",
-        "operationId": "delete_project",
-        "tags": [
-          "projects"
-        ]
-      },
       "get": {
         "responses": {
           "200": {
@@ -296,6 +283,18 @@
         },
         "summary": "Fetch a project by ID",
         "operationId": "get_project",
+        "tags": [
+          "projects"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Project deleted"
+          }
+        },
+        "summary": "Delete a project",
+        "operationId": "delete_project",
         "tags": [
           "projects"
         ]
@@ -327,6 +326,24 @@
       }
     },
     "/skills/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Skill"
+              }
+            }
+          }
+        },
+        "summary": "List all skills",
+        "operationId": "list_skills",
+        "tags": [
+          "skills"
+        ]
+      },
       "post": {
         "responses": {
           "200": {
@@ -351,24 +368,6 @@
         "tags": [
           "skills"
         ]
-      },
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Skill"
-              }
-            }
-          }
-        },
-        "summary": "List all skills",
-        "operationId": "list_skills",
-        "tags": [
-          "skills"
-        ]
       }
     },
     "/skills/{skill_id}": {
@@ -381,18 +380,6 @@
           "type": "integer"
         }
       ],
-      "delete": {
-        "responses": {
-          "204": {
-            "description": "Skill deleted"
-          }
-        },
-        "summary": "Delete a skill",
-        "operationId": "delete_skill",
-        "tags": [
-          "skills"
-        ]
-      },
       "get": {
         "responses": {
           "200": {
@@ -404,6 +391,18 @@
         },
         "summary": "Fetch a skill by ID",
         "operationId": "get_skill",
+        "tags": [
+          "skills"
+        ]
+      },
+      "delete": {
+        "responses": {
+          "204": {
+            "description": "Skill deleted"
+          }
+        },
+        "summary": "Delete a skill",
+        "operationId": "delete_skill",
         "tags": [
           "skills"
         ]

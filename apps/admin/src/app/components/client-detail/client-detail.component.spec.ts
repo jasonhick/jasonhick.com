@@ -19,9 +19,11 @@ describe('ClientDetailComponent', () => {
       name: 'Test Client',
       description: 'Test Description',
       website: 'http://test.com',
-      logo_url: 'http://test.com/logo.png',
       start_date: '2024-01-01',
-      end_date: '2024-12-31'
+      end_date: '2024-12-31',
+      features: [],
+      location: '',
+      role: ''
    };
 
    beforeEach(async () => {
@@ -59,9 +61,11 @@ describe('ClientDetailComponent', () => {
          name: '',
          description: '',
          website: '',
-         logo_url: '',
          start_date: '',
-         end_date: ''
+         end_date: '',
+         features: [],
+         location: '',
+         role: ''
       });
    });
 
@@ -75,9 +79,11 @@ describe('ClientDetailComponent', () => {
          name: mockClient.name,
          description: mockClient.description,
          website: mockClient.website,
-         logo_url: mockClient.logo_url,
          start_date: mockClient.start_date,
-         end_date: mockClient.end_date
+         end_date: mockClient.end_date,
+         features: mockClient.features,
+         location: mockClient.location,
+         role: mockClient.role
       });
    });
 

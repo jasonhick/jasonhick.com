@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Client, ClientCreate, ClientService } from '@jasonhick.com/data-access';
-import { map, switchMap, tap, of, Observable } from 'rxjs';
+import { map, switchMap, tap, take } from 'rxjs';
 
 import { FormErrorComponent } from '../form-error/form-error.component';
 import { FormFieldComponent } from '../form-field/form-field.component';
@@ -17,80 +17,79 @@ import { FormFieldComponent } from '../form-field/form-field.component';
 export class ClientDetailComponent implements OnInit {
    private fb = inject(FormBuilder);
    private route = inject(ActivatedRoute);
+   private router = inject(Router);
    private clientService = inject(ClientService);
 
-   public buttonText = 'Save Client';
-   public client$ = this.fetchClient();
    public form!: FormGroup;
+   public selectedClient = signal<Client | null>(null);
+   public buttonText = signal<string>('Save');
 
    /**
-    * Initializes form after component is created
+    * Initializes form and sets up client subscription
     * @see initForm
+    * @see setupClientSubscription
     */
    public ngOnInit(): void {
       this.initForm();
+      this.setupClientSubscription();
    }
 
    /**
     * Initializes the form with default values and validation rules
+    *
+    * @remarks
+    * Form controls match the Client model structure with appropriate validators
     */
    private initForm(): void {
       this.form = this.fb.group({
          id: [null],
          name: ['', Validators.required],
-         description: ['', Validators.required],
+         description: [''],
+         features: this.fb.array([]),
+         location: [''],
+         role: [''],
          website: [''],
-         logo_url: [''],
-         start_date: ['', Validators.required],
-         end_date: ['', Validators.required]
+         start_date: [''],
+         end_date: ['']
       });
    }
 
    /**
-    * Fetches a client based on the route parameter 'clientId'.
-    * If clientId exists, retrieves the client from the service.
-    * Resets form and updates button text based on whether editing existing or creating new.
+    * Sets up subscription to route params to load client data
     *
     * @remarks
-    * This method performs the following steps:
-    * 1. Extracts and parses the clientId from route params
-    * 2. Resets the form and sets default button text
-    * 3. If clientId exists, fetches client data from service
-    * 4. Updates form with client data if found
-    *
-    * @returns Observable that emits the fetched Client or null if creating new
-    * @see ClientService.getClient
+    * This method:
+    * 1. Extracts clientId from route params
+    * 2. Fetches client data if ID exists
+    * 3. Updates form and signals with retrieved data
     */
-   private fetchClient(): Observable<Client | null> {
-      return this.route.params.pipe(
-         map((params) => (params['clientId'] ? parseInt(params['clientId'], 10) : null)),
-         tap(() => {
-            this.form.reset();
-            this.buttonText = 'Save Client';
-         }),
-         switchMap((clientId) => {
-            if (!clientId) return of(null);
-            return this.clientService.getClient(clientId);
-         }),
-         tap((client) => {
-            if (client) {
-               this.patchForm(client);
-               this.buttonText = 'Update Client';
-            }
-         })
-      );
+   private setupClientSubscription(): void {
+      this.route.params
+         .pipe(
+            map((params) => (params['clientId'] ? parseInt(params['clientId'], 10) : null)),
+            tap(() => {
+               this.form.reset();
+               this.buttonText.set('Save');
+            }),
+            switchMap((clientId) => {
+               if (!clientId) return [null];
+               return this.clientService.getClient(clientId);
+            }),
+            tap((client) => {
+               if (client) {
+                  this.patchForm(client);
+                  this.selectedClient.set(client);
+                  this.buttonText.set('Update');
+               }
+            })
+         )
+         .subscribe();
    }
 
    /**
-    * Updates the form with client data, formatting dates for the form inputs
+    * Updates form with client data, formatting dates for input fields
     *
     * @param client - The client data to populate the form with
-    *
-    * @remarks
-    * This method performs the following:
-    * 1. Creates a copy of the client object
-    * 2. Formats start_date and end_date from ISO strings to YYYY-MM-DD format for date inputs
-    * 3. Updates the form values using Angular's patchValue
     */
    private patchForm(client: Client): void {
       const formattedClient = {
@@ -100,22 +99,27 @@ export class ClientDetailComponent implements OnInit {
       };
 
       this.form.patchValue(formattedClient);
+
+      // Clear and rebuild features array
+      while (this.features.length) {
+         this.features.removeAt(0);
+      }
+
+      client.features?.forEach((feature) => {
+         this.features.push(this.fb.control(feature));
+      });
    }
 
    /**
     * Saves or updates client data based on form submission
     *
-    * @remarks
-    * This method performs the following:
-    * 1. Validates the form
-    * 2. Extracts id and form data from the form values
-    * 3. Creates a ClientCreate object with formatted dates
-    * 4. Calls appropriate service method based on whether it's a new or existing client
+    * @description
+    * - Validates form before submission
+    * - Formats dates to ISO strings for API
+    * - Creates new client or updates existing based on ID
+    * - Refreshes client list and redirects on success
     *
-    * The dates are converted from the HTML date input format (YYYY-MM-DD)
-    * to ISO format required by the API
-    *
-    * If the form is invalid, no action is taken
+    * @throws Will not proceed if form is invalid
     */
    public saveClient(): void {
       if (this.form.valid) {
@@ -124,17 +128,56 @@ export class ClientDetailComponent implements OnInit {
          const data: ClientCreate = {
             name: formData.name,
             description: formData.description,
+            features: formData.features,
+            location: formData.location,
+            role: formData.role,
             website: formData.website,
-            logo_url: formData.logo_url,
             start_date: formData.start_date ? new Date(formData.start_date).toISOString() : '',
             end_date: formData.end_date ? new Date(formData.end_date).toISOString() : ''
          };
 
-         if (id) {
-            this.clientService.updateClient({ id, ...data }).subscribe();
-         } else {
-            this.clientService.saveClient(data).subscribe();
-         }
+         const save$ = id ? this.clientService.updateClient({ id, ...data }) : this.clientService.saveClient(data);
+
+         save$
+            .pipe(
+               take(1),
+               tap(() => {
+                  this.clientService.getClients(); // Refresh the clients list
+                  this.router.navigate(['/clients']);
+               })
+            )
+            .subscribe();
       }
+   }
+
+   /**
+    * Gets the features FormArray from the form
+    *
+    * @returns FormArray containing the features controls
+    */
+   public get features(): FormArray {
+      return this.form.get('features') as FormArray;
+   }
+
+   /**
+    * Adds a new empty feature control to the features FormArray
+    *
+    * @remarks
+    * Creates a new FormControl with an empty string value and adds it to the end of the array
+    */
+   public addFeature(): void {
+      this.features.push(this.fb.control(''));
+   }
+
+   /**
+    * Removes a feature control at the specified index
+    *
+    * @param index - The index of the feature to remove
+    *
+    * @remarks
+    * Removes the FormControl at the given index from the features FormArray
+    */
+   public removeFeature(index: number): void {
+      this.features.removeAt(index);
    }
 }

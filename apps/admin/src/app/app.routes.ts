@@ -25,22 +25,6 @@ export const routes: Routes = [
       ]
    },
    {
-      path: 'images',
-      component: VIEWS.ImagesComponent,
-      children: [
-         {
-            path: '',
-            component: COMPONENTS.ImageListComponent,
-            children: [
-               {
-                  path: ':imageId',
-                  component: COMPONENTS.ImageDetailComponent
-               }
-            ]
-         }
-      ]
-   },
-   {
       path: 'skills',
       component: VIEWS.SkillsComponent,
       children: [

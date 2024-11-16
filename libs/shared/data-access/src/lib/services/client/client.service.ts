@@ -4,8 +4,8 @@ import { catchError, Observable, of, take, tap } from 'rxjs';
 import { BaseService } from '../base/base.service';
 import { Client } from '../data-contracts';
 
-export type ClientCreate = Omit<Client, 'id'>;
-export type ClientUpdate = Required<Pick<Client, 'id'>> & Omit<Client, 'id'>;
+export type ClientCreate = Omit<Client, 'id' | 'created_at' | 'updated_at'>;
+export type ClientUpdate = Required<Pick<Client, 'id'>> & ClientCreate;
 
 @Injectable({
    providedIn: 'root'
@@ -21,13 +21,18 @@ export class ClientService extends BaseService<Client> {
    }
 
    /**
-    * Retrieves all clients from the API and updates the clients$ signal
+    * Retrieves all clients from the API
+    *
+    * @remarks
     * This method:
-    * 1. Sets loading state to true and clears any previous errors
-    * 2. Makes HTTP GET request to fetch clients
-    * 3. Updates the clients$ signal with the response data
-    * 4. Handles any errors by setting error state
-    * 5. Sets loading state to false when complete
+    * 1. Clears any existing error state
+    * 2. Sets loading state to true
+    * 3. Fetches clients from the API
+    * 4. Updates the clients$ signal with the response
+    * 5. Handles errors by setting error$ signal
+    *
+    * @see Client
+    * @see BaseService.get
     */
    public getClients(): void {
       this.error$.set(null);
@@ -49,11 +54,17 @@ export class ClientService extends BaseService<Client> {
    }
 
    /**
-    * Retrieves a single client by ID
-    * @param id - The ID of the client to retrieve
-    * @returns An Observable that emits either:
-    * - A Client object if found
-    * - An empty array if there's an error or client not found
+    * Fetches a single client by their ID
+    *
+    * @param id - The unique identifier of the client
+    * @returns Observable<Client | null>
+    *
+    * @remarks
+    * Returns null if client is not found or if an error occurs
+    * Updates loading$ and error$ signals during operation
+    *
+    * @see Client
+    * @see BaseService.get
     */
    public getClient(id: number): Observable<Client | null> {
       this.error$.set(null);
@@ -71,26 +82,63 @@ export class ClientService extends BaseService<Client> {
    }
 
    /**
-    * Saves a client by creating a new one
-    * @param client - The client object to save
-    * @returns An Observable that emits the saved client and triggers a refresh of the clients list
+    * Creates a new client
+    *
+    * @param client - The client data to create
+    * @returns Observable<Client>
+    *
+    * @remarks
+    * After successful creation, refreshes the clients list
+    *
+    * @see ClientCreate
+    * @see BaseService.post
     */
    public saveClient(client: ClientCreate): Observable<Client> {
+      this.error$.set(null);
+      this.loading$.set(true);
+
       return this.post(client).pipe(
          take(1),
-         tap(() => this.getClients())
+         catchError((error) => {
+            this.error$.set(error);
+            this.loading$.set(false);
+            throw error;
+         }),
+         tap(() => {
+            this.loading$.set(false);
+            this.getClients();
+         })
       );
    }
 
    /**
     * Updates an existing client
-    * @param client - The client object to update, containing id and updated fields
-    * @returns An Observable that emits the updated client and triggers a refresh of the clients list
+    *
+    * @param client - The client data to update
+    * @returns Observable<Client>
+    *
+    * @remarks
+    * After successful update, refreshes the clients list
+    * Requires client.id to be present
+    *
+    * @see ClientUpdate
+    * @see BaseService.put
     */
    public updateClient(client: ClientUpdate): Observable<Client> {
+      this.error$.set(null);
+      this.loading$.set(true);
+
       return this.put(client.id, client).pipe(
          take(1),
-         tap(() => this.getClients())
+         catchError((error) => {
+            this.error$.set(error);
+            this.loading$.set(false);
+            throw error;
+         }),
+         tap(() => {
+            this.loading$.set(false);
+            this.getClients();
+         })
       );
    }
 }

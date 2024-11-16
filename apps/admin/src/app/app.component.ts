@@ -14,7 +14,7 @@ export class AppComponent {
    navItems = [
       { route: '/clients', label: 'Clients' },
       { route: '/projects', label: 'Projects' },
-      { route: '/skills', label: 'Skills' },
-      { route: '/images', label: 'Images' }
+      { route: '/skills', label: 'Skills' }
+      // { route: '/images', label: 'Images' }
    ];
 }

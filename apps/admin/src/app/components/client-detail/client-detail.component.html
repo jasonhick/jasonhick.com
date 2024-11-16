@@ -1,4 +1,8 @@
-<h1>{{ (client$ | async)?.name || 'New Client' }}</h1>
+@if (selectedClient(); as client) {
+   <h1>{{ client.name }}</h1>
+} @else {
+   <h1>New Client</h1>
+}
 
 <form [formGroup]="form" (ngSubmit)="saveClient()">
 
@@ -12,12 +16,33 @@
          <textarea id="description" formControlName="description"></textarea>
       </app-form-field>
 
-      <app-form-field id="website" label="Website" [form]="form">
-         <input id="website" type="url" formControlName="website" />
+      <app-form-field id="features" label="Features" [form]="form">
+         <div formArrayName="features">
+            @for (feature of features.controls; track $index) {
+               <div class="flex gap-2 mb-2">
+                  <input [id]="'feature-' + $index" type="text" [formControlName]="$index" />
+                  <button type="button" (click)="removeFeature($index)" 
+                     class="bg-red-100 hover:bg-red-200 p-1 rounded-md text-red-600">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                     </svg>
+                  </button>
+               </div>
+            }
+            <button type="button" (click)="addFeature()">Add Feature</button>
+         </div>
       </app-form-field>
 
-      <app-form-field id="logo_url" label="Logo URL" [form]="form">
-         <input id="logo_url" type="url" formControlName="logo_url" />
+      <app-form-field id="location" label="Location" [form]="form">
+         <input id="location" type="text" formControlName="location" />
+      </app-form-field>
+
+      <app-form-field id="role" label="Role" [form]="form">
+         <input id="role" type="text" formControlName="role" />
+      </app-form-field>
+
+      <app-form-field id="website" label="Website" [form]="form">
+         <input id="website" type="url" formControlName="website" />
       </app-form-field>
 
       <app-form-field id="start_date" label="Start Date" [form]="form" [required]="true">
@@ -29,7 +54,7 @@
       </app-form-field>
 
       <div class="flex justify-end">
-         <button type="submit" [disabled]="!form.valid">{{ buttonText }}</button>
+         <button type="submit" [disabled]="!form.valid">{{ buttonText() }}</button>
       </div>
 
    </div>
