@@ -125,13 +125,14 @@ export class ClientDetailComponent implements OnInit {
       if (this.form.valid) {
          const { id, ...formData } = this.form.value;
 
+         // Remove null values from the data
+         const cleanedData: Partial<Client> = Object.fromEntries(
+            Object.entries(formData).filter(([, value]) => value !== null)
+         );
+
          const data: ClientCreate = {
             name: formData.name,
-            description: formData.description,
-            features: formData.features,
-            location: formData.location,
-            role: formData.role,
-            website: formData.website,
+            ...cleanedData,
             start_date: formData.start_date ? new Date(formData.start_date).toISOString() : '',
             end_date: formData.end_date ? new Date(formData.end_date).toISOString() : ''
          };

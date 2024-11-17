@@ -6,17 +6,29 @@
 
 <form [formGroup]="form" (ngSubmit)="saveClient()">
 
-   <div class="grid grid-cols-1 gap-4">
+   <div class="grid grid-cols-2 gap-4">
 
       <app-form-field id="name" label="Name" [form]="form" [required]="true">
          <input id="name" type="text" formControlName="name" />
       </app-form-field>
 
-      <app-form-field id="description" label="Description" [form]="form" [required]="true">
+      <app-form-field id="description" label="Description" [form]="form" class="row-span-3">
          <textarea id="description" formControlName="description"></textarea>
+      </app-form-field>         
+
+      <app-form-field id="location" label="Location" [form]="form">
+         <input id="location" type="text" formControlName="location" />
       </app-form-field>
 
-      <app-form-field id="features" label="Features" [form]="form">
+      <app-form-field id="role" label="Role" [form]="form">
+         <input id="role" type="text" formControlName="role" />
+      </app-form-field>
+
+      <app-form-field id="website" label="Website" [form]="form">
+         <input id="website" type="url" formControlName="website" />
+      </app-form-field>      
+
+      <app-form-field id="features" label="Features" [form]="form" class="row-span-3">
          <div formArrayName="features">
             @for (feature of features.controls; track $index) {
                <div class="flex gap-2 mb-2">
@@ -31,29 +43,17 @@
             }
             <button type="button" (click)="addFeature()">Add Feature</button>
          </div>
-      </app-form-field>
+      </app-form-field>           
 
-      <app-form-field id="location" label="Location" [form]="form">
-         <input id="location" type="text" formControlName="location" />
-      </app-form-field>
-
-      <app-form-field id="role" label="Role" [form]="form">
-         <input id="role" type="text" formControlName="role" />
-      </app-form-field>
-
-      <app-form-field id="website" label="Website" [form]="form">
-         <input id="website" type="url" formControlName="website" />
-      </app-form-field>
-
-      <app-form-field id="start_date" label="Start Date" [form]="form" [required]="true">
+      <app-form-field id="start_date" label="Start Date" [form]="form">
          <input id="start_date" type="date" formControlName="start_date" />
       </app-form-field>
-
-      <app-form-field id="end_date" label="End Date" [form]="form" [required]="true">
+   
+      <app-form-field id="end_date" label="End Date" [form]="form">
          <input id="end_date" type="date" formControlName="end_date" />
-      </app-form-field>
+      </app-form-field>         
 
-      <div class="flex justify-end">
+      <div class="flex justify-end" class="col-span-2">
          <button type="submit" [disabled]="!form.valid">{{ buttonText() }}</button>
       </div>
 

@@ -6,7 +6,7 @@ import { BaseService } from '../base/base.service';
 import { Skill } from '../data-contracts';
 
 export type SkillCreate = Omit<Skill, 'id'>;
-export type SkillUpdate = Required<Pick<Skill, 'id'>> & Omit<Skill, 'id'>;
+export type SkillUpdate = Skill & { id: number };
 
 @Injectable({
    providedIn: 'root'

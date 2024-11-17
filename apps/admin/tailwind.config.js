@@ -57,6 +57,10 @@ module.exports = {
         'label': {
           '@apply block text-sm font-semibold text-violet-100 mb-2': {},
         },
+        'label.required::after': {
+          content: '"*"',
+          '@apply text-red-500 ml-1': {},
+        },
         '.form-helper': {
           '@apply mt-2 text-sm text-gray-400': {},
         },

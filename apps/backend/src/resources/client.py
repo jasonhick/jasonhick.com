@@ -2,134 +2,119 @@ from datetime import datetime
 
 from backend.src.database import db
 from backend.src.models import Client
-from flask_restx import Namespace, Resource, fields, reqparse
+from flask_restx import Namespace, Resource, fields
+from flask import request
 
 # Create namespace
 client_ns = Namespace("clients", description="Client operations")
 
-# Define models for swagger documentation
-client_model = client_ns.model(
-    "Client",
+# Model for POST operations (create)
+client_create_model = client_ns.model(
+    "ClientCreate",
     {
-        "id": fields.Integer(readonly=True, description="Client ID"),
         "name": fields.String(required=True, description="Client name"),
-        "description": fields.String(description="Client description"),
-        "features": fields.List(fields.String, description="Client features"),
-        "location": fields.String(description="Client location"),
-        "role": fields.String(description="Role at client"),
-        "website": fields.String(description="Client website URL"),
-        "start_date": fields.DateTime(description="Project start date"),
-        "end_date": fields.DateTime(description="Project end date"),
-        "created_at": fields.DateTime(readonly=True),
-        "updated_at": fields.DateTime(readonly=True),
-    },
+        "description": fields.String(required=False, default=None, description="Client description"),
+        "features": fields.List(fields.String, required=False, default=None, description="Client features"),
+        "location": fields.String(required=False, default=None, description="Client location"),
+        "role": fields.String(required=False, default=None, description="Client role"),
+        "website": fields.String(required=False, default=None, description="Client website"),
+        "start_date": fields.String(required=False, default=None, description="Client start date"),
+        "end_date": fields.String(required=False, default=None,  description="Client end date"),
+    }
 )
 
+# Full model including readonly fields (for PUT and responses)
+client_model = client_ns.inherit(
+    "Client", 
+    client_create_model,
+    {
+        "id": fields.Integer(readonly=True, description="Client ID"),
+        "created_at": fields.DateTime(readonly=True),
+        "updated_at": fields.DateTime(readonly=True),
+    }
+)
 
 def parse_datetime(date_str):
+    """Parse datetime from string, return None for empty/invalid values"""
     if not date_str:
         return None
     try:
-        # First try DD/MM/YYYY format
-        return datetime.strptime(date_str, "%d/%m/%Y")
-    except ValueError:
-        try:
-            # Fallback to ISO format if DD/MM/YYYY fails
-            return datetime.fromisoformat(date_str)
-        except ValueError:
-            raise ValueError("Date must be in DD/MM/YYYY format")
-
-
-# Parser for request validation
-client_parser = reqparse.RequestParser()
-client_parser.add_argument(
-    "name", type=str, required=True, help="Name is required"
-)
-client_parser.add_argument("description", type=str)
-client_parser.add_argument("features", type=list)
-client_parser.add_argument("location", type=str)
-client_parser.add_argument("role", type=str)
-client_parser.add_argument("website", type=str)
-client_parser.add_argument("start_date", type=parse_datetime)
-client_parser.add_argument("end_date", type=parse_datetime)
-
+        return datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+    except (ValueError, AttributeError):
+        return None
 
 @client_ns.route("/")
 class ClientList(Resource):
     @client_ns.marshal_list_with(client_model)
-    @client_ns.doc("list_clients")
     def get(self):
         """List all clients"""
-        return Client.query.all()
+        return Client.query.order_by(Client.end_date.desc()).all()
 
-    @client_ns.expect(client_model)
+    @client_ns.expect(client_create_model)  # Use create model for POST
     @client_ns.marshal_with(client_model)
     def post(self):
+        """Create a new client"""
         data = client_ns.payload
         
-        # Ensure features is a list of strings, not individual characters
-        if isinstance(data.get('features'), list):
-            features = data['features']
-        else:
-            features = []
+        if not data.get('name'):
+            client_ns.abort(400, "Name is required")
+
+        # Handle dates - convert empty strings to None
+        start_date = None if not data.get('start_date') else parse_datetime(data['start_date'])
+        end_date = None if not data.get('end_date') else parse_datetime(data['end_date'])
 
         client = Client(
             name=data['name'],
-            description=data.get('description'),
-            features=features,  # This will now be a proper list
-            location=data.get('location'),
-            role=data.get('role'),
-            website=data.get('website'),
-            start_date=parse_datetime(data.get('start_date')),
-            end_date=parse_datetime(data.get('end_date'))
+            description=data.get('description', None),
+            features=data.get('features', []),
+            location=data.get('location', None),
+            role=data.get('role', None),
+            website=data.get('website', None),
+            start_date=start_date,
+            end_date=end_date
         )
         
         db.session.add(client)
         db.session.commit()
         return client
 
-
 @client_ns.route("/<int:client_id>")
-@client_ns.param("client_id", "The client identifier")
 class ClientResource(Resource):
     @client_ns.marshal_with(client_model)
-    @client_ns.doc("get_client")
     def get(self, client_id):
         """Fetch a client by ID"""
         return Client.query.get_or_404(client_id)
 
     @client_ns.marshal_with(client_model)
-    @client_ns.doc("update_client")
     @client_ns.expect(client_model)
     def put(self, client_id):
         """Update a client"""
         client = Client.query.get_or_404(client_id)
         data = client_ns.payload
 
-        # Ensure features is a list of strings, not individual characters
-        if isinstance(data.get('features'), list):
-            features = data['features']
-        else:
-            features = []
-
-        # Update client fields
-        client.name = data['name']
+        if not data.get('name'):
+            client_ns.abort(400, "Name is required")
+            
+        # Handle dates - convert empty strings to None
+        start_date = None if not data.get('start_date') else parse_datetime(data['start_date'])
+        end_date = None if not data.get('end_date') else parse_datetime(data['end_date'])
+            
+        client.name = data.get('name')
         client.description = data.get('description')
-        client.features = features
+        client.features = data.get('features', [])
         client.location = data.get('location')
         client.role = data.get('role')
         client.website = data.get('website')
-        client.start_date = parse_datetime(data.get('start_date'))
-        client.end_date = parse_datetime(data.get('end_date'))
+        client.start_date = start_date
+        client.end_date = end_date
 
         db.session.commit()
         return client
 
-    @client_ns.doc("delete_client")
-    @client_ns.response(204, "Client deleted")
+    @client_ns.response(204, 'Client deleted')
     def delete(self, client_id):
         """Delete a client"""
         client = Client.query.get_or_404(client_id)
         db.session.delete(client)
         db.session.commit()
-        return "", 204
+        return '', 204
