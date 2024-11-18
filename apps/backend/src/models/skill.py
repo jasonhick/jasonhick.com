@@ -1,6 +1,7 @@
 from datetime import UTC, datetime
 
 from backend.src.database import db
+from backend.src.models.project import project_skills
 
 
 class Skill(db.Model):
@@ -8,6 +9,13 @@ class Skill(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
+
+    # Relationships
+    projects = db.relationship(
+        "Project", secondary=project_skills, lazy="joined", back_populates="skills"
+    )
+
+    # Timestamps
     created_at = db.Column(db.DateTime, default=datetime.now(UTC))
     updated_at = db.Column(
         db.DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC)

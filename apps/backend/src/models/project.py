@@ -11,20 +11,18 @@ project_skills = db.Table(
         db.ForeignKey("projects.id"),
         primary_key=True,
     ),
-    db.Column(
-        "skill_id", db.Integer, db.ForeignKey("skills.id"), primary_key=True
-    ),
+    db.Column("skill_id", db.Integer, db.ForeignKey("skills.id"), primary_key=True),
 )
 
 
 class Project(db.Model):
     __tablename__ = "projects"
 
+    # Columns
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
     features = db.Column(db.ARRAY(db.String), default=[], nullable=False)
-    thumbnail_url = db.Column(db.String(255), nullable=False)
     live_url = db.Column(db.String(255), nullable=True)
     github_url = db.Column(db.String(255), nullable=True)
     start_date = db.Column(db.Date, nullable=False)
@@ -32,10 +30,6 @@ class Project(db.Model):
     is_featured = db.Column(
         db.Boolean,
         default=False,
-    )
-    created_at = db.Column(db.DateTime, default=datetime.now(UTC))
-    updated_at = db.Column(
-        db.DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC)
     )
 
     # Foreign Keys
@@ -45,18 +39,21 @@ class Project(db.Model):
     client = db.relationship("Client", back_populates="projects")
 
     skills = db.relationship(
-        "Skill",
-        secondary=project_skills,
-        lazy="joined",
-        backref=db.backref("projects", lazy=True),
+        "Skill", secondary=project_skills, lazy="joined", back_populates="projects"
     )
 
     images = db.relationship(
-        "ProjectImage",
-        backref="project",
+        "Image",
+        back_populates="project",
         lazy="joined",
-        order_by="ProjectImage.order",
+        order_by="Image.order",
         cascade="all, delete-orphan",
+    )
+
+    # Timestamps
+    created_at = db.Column(db.DateTime, default=datetime.now(UTC))
+    updated_at = db.Column(
+        db.DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC)
     )
 
     def __repr__(self):

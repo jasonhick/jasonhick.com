@@ -8,7 +8,7 @@ from flask_restx import Api, Resource
 
 from .config import Config
 from .database import db, init_db
-from .resources import client_ns, project_image_ns, project_ns, skill_ns
+from .resources import client_ns, image_ns, project_ns, skill_ns
 
 
 def generate_swagger_file(app, api):
@@ -34,7 +34,12 @@ def create_app():
         app,
         resources={
             r"/api/*": {  # Changed from r"/*" to specifically target API routes
-                "origins": ["http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:5000", "http://127.0.0.1:5000"],  # Specify allowed origins
+                "origins": [
+                    "http://localhost:4200",
+                    "http://127.0.0.1:4200",
+                    "http://localhost:5000",
+                    "http://127.0.0.1:5000",
+                ],  # Specify allowed origins
                 "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 "allow_headers": ["Content-Type", "Authorization"],
                 "supports_credentials": True,
@@ -62,7 +67,7 @@ def create_app():
     # Add namespaces
     api.add_namespace(client_ns)
     api.add_namespace(project_ns)
-    api.add_namespace(project_image_ns)
+    api.add_namespace(image_ns)
     api.add_namespace(skill_ns)
 
     # Add swagger.json endpoint to the API

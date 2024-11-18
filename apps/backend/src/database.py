@@ -16,7 +16,7 @@ db = SQLAlchemy(metadata=metadata)
 
 def init_db(app):
     # Import models here to ensure they're registered with SQLAlchemy
-    from backend.src.models import Client, Project, ProjectImage, Skill
+    from backend.src.models import Client, Image, Project, Skill
 
     with app.app_context():
         db.create_all()
