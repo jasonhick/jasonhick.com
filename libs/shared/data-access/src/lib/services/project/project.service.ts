@@ -1,19 +1,16 @@
-import { computed, Injectable, signal } from '@angular/core';
-import { catchError, of, take, tap } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { catchError, Observable, of, take, tap } from 'rxjs';
 
 import { BaseService } from '../base/base.service';
-import { Project } from '../data-contracts';
+import { Project, ProjectCreate, ProjectUpdate } from '../data-contracts';
 
 @Injectable({
    providedIn: 'root'
 })
 export class ProjectService extends BaseService<Project> {
-   private projectSignal = signal<Project[]>([]);
-   public projects = computed(() => this.projectSignal.asReadonly());
-
-   projects$ = signal<Project[]>([]);
-   loading$ = signal<boolean>(false);
-   error$ = signal<string | null>(null);
+   public readonly projects$ = signal<Project[]>([]);
+   public readonly error$ = signal<string | null>(null);
+   public readonly loading$ = signal<boolean>(false);
 
    constructor() {
       super();
@@ -21,26 +18,28 @@ export class ProjectService extends BaseService<Project> {
    }
 
    /**
-    * getProjects: Fetches the list of projects from the API
+    * Retrieves all projects from the API
     *
-    * @description Makes an HTTP GET request to retrieve all projects
     * @remarks
-    * - Sets loading state while request is in progress
-    * - Updates projects$ signal with response data on success
-    * - Sets error$ signal with error message on failure
-    * - Resets loading state when complete
-    * @returns {void}
+    * This method:
+    * 1. Clears any existing error state
+    * 2. Sets loading state to true
+    * 3. Fetches projects from the API
+    * 4. Updates the projects$ signal with the response
+    * 5. Handles errors by setting error$ signal
+    *
+    * @see Project
+    * @see BaseService.get
     */
    public getProjects(): void {
-      this.loading$.set(true);
       this.error$.set(null);
+      this.loading$.set(true);
 
       this.get()
          .pipe(
             take(1),
             catchError((error) => {
                this.error$.set(error);
-               this.loading$.set(false);
                return of([]);
             }),
             tap((data) => {
@@ -52,20 +51,120 @@ export class ProjectService extends BaseService<Project> {
    }
 
    /**
-    * saveProject: Saves a project to the API
+    * Fetches a single project by its ID
     *
-    * @param project The project object containing the data to save
-    * @description Makes an HTTP POST request to save the project data
-    * @returns {void}
+    * @param id - The unique identifier of the project
+    * @returns Observable<Project | null>
+    *
+    * @remarks
+    * Returns null if project is not found or if an error occurs
+    * Updates loading$ and error$ signals during operation
+    *
+    * @see Project
+    * @see BaseService.get
     */
-   public saveProject(project: Project): void {
-      this.post(project)
-         .pipe(
-            take(1),
-            tap(() => {
-               this.getProjects();
-            })
-         )
-         .subscribe();
+   public getProject(id: number): Observable<Project | null> {
+      this.error$.set(null);
+      this.loading$.set(true);
+
+      return this.get(id).pipe(
+         take(1),
+         catchError((error) => {
+            this.error$.set(error);
+            this.loading$.set(false);
+            return of(null);
+         }),
+         tap(() => this.loading$.set(false))
+      );
+   }
+
+   /**
+    * Creates a new project
+    *
+    * @param project - The project data to create
+    * @returns Observable<Project>
+    *
+    * @remarks
+    * After successful creation, refreshes the projects list
+    *
+    * @see ProjectCreate
+    * @see BaseService.post
+    */
+   public saveProject(project: ProjectCreate): Observable<Project> {
+      this.error$.set(null);
+      this.loading$.set(true);
+
+      return this.post(project).pipe(
+         take(1),
+         catchError((error) => {
+            this.error$.set(error);
+            this.loading$.set(false);
+            throw error;
+         }),
+         tap(() => {
+            this.loading$.set(false);
+            this.getProjects();
+         })
+      );
+   }
+
+   /**
+    * Updates an existing project
+    *
+    * @param project - The project data to update
+    * @returns Observable<Project>
+    *
+    * @remarks
+    * After successful update, refreshes the projects list
+    * Requires project.id to be present
+    *
+    * @see ProjectUpdate
+    * @see BaseService.put
+    */
+   public updateProject(project: ProjectUpdate): Observable<Project> {
+      this.error$.set(null);
+      this.loading$.set(true);
+
+      return this.put(project.id, project).pipe(
+         take(1),
+         catchError((error) => {
+            this.error$.set(error);
+            this.loading$.set(false);
+            throw error;
+         }),
+         tap(() => {
+            this.loading$.set(false);
+            this.getProjects();
+         })
+      );
+   }
+
+   /**
+    * Deletes a project by ID
+    *
+    * @param id - The unique identifier of the project to delete
+    * @returns Observable<void>
+    *
+    * @remarks
+    * After successful deletion, refreshes the projects list
+    *
+    * @see BaseService.delete
+    */
+   public deleteProject(id: number): Observable<void> {
+      this.error$.set(null);
+      this.loading$.set(true);
+
+      return this.delete(id).pipe(
+         take(1),
+         catchError((error) => {
+            this.error$.set(error);
+            this.loading$.set(false);
+            throw error;
+         }),
+         tap(() => {
+            this.loading$.set(false);
+            this.getProjects();
+         })
+      );
    }
 }

@@ -3,10 +3,7 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 
 import { BaseService } from '../base/base.service';
-import { Skill } from '../data-contracts';
-
-export type SkillCreate = Omit<Skill, 'id'>;
-export type SkillUpdate = Skill & { id: number };
+import { Skill, SkillCreate, SkillUpdate } from '../data-contracts';
 
 @Injectable({
    providedIn: 'root'

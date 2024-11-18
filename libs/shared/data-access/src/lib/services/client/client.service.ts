@@ -2,10 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { catchError, Observable, of, take, tap } from 'rxjs';
 
 import { BaseService } from '../base/base.service';
-import { Client } from '../data-contracts';
-
-export type ClientCreate = Omit<Client, 'id' | 'created_at' | 'updated_at'>;
-export type ClientUpdate = Required<Pick<Client, 'id'>> & ClientCreate;
+import { Client, ClientCreate, ClientUpdate } from '../data-contracts';
 
 @Injectable({
    providedIn: 'root'

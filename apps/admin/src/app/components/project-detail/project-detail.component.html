@@ -1,67 +1,80 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-   <div class="grid grid-cols-1 gap-4">
-      <div>
-         <label for="title">Title *</label>
+@if (selectedProject(); as project) {
+   <h1>{{ project.title }}</h1>
+} @else {
+   <h1>New Project</h1>
+}
+
+<form [formGroup]="form" (ngSubmit)="saveProject()">
+   <div class="grid grid-cols-2 gap-4">
+      
+      <app-form-field id="title" label="Title" [form]="form" [required]="true">
          <input id="title" type="text" formControlName="title" />
-         <div *ngIf="form.get('title')?.errors?.['required'] && form.get('title')?.touched">Title is required</div>
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="description">Description *</label>
+      <app-form-field id="description" label="Description" [form]="form" class="row-span-3">
          <textarea id="description" formControlName="description"></textarea>
-         <div *ngIf="form.get('description')?.errors?.['required'] && form.get('description')?.touched">
-            Description is required
-         </div>
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="thumbnail_url">Thumbnail URL *</label>
+      <app-form-field id="features" label="Features" [form]="form" class="row-span-3">
+         <div formArrayName="features">
+            @for (feature of features.controls; track $index) {
+               <div class="flex gap-2 mb-2">
+                  <input [id]="'feature-' + $index" type="text" [formControlName]="$index" />
+                  <button type="button" (click)="removeFeature($index)" 
+                     class="bg-red-100 hover:bg-red-200 p-1 rounded-md text-red-600">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                     </svg>
+                  </button>
+               </div>
+            }
+            <button type="button" (click)="addFeature()">Add Feature</button>
+         </div>
+      </app-form-field>
+
+      <app-form-field id="thumbnail_url" label="Thumbnail URL" [form]="form">
          <input id="thumbnail_url" type="url" formControlName="thumbnail_url" />
-         <div *ngIf="form.get('thumbnail_url')?.errors?.['required'] && form.get('thumbnail_url')?.touched">
-            Thumbnail URL is required
-         </div>
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="live_url">Live URL</label>
+      <app-form-field id="live_url" label="Live URL" [form]="form">
          <input id="live_url" type="url" formControlName="live_url" />
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="github_url">GitHub URL</label>
+      <app-form-field id="github_url" label="GitHub URL" [form]="form">
          <input id="github_url" type="url" formControlName="github_url" />
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="start_date">Start Date *</label>
+      <app-form-field id="start_date" label="Start Date" [form]="form">
          <input id="start_date" type="date" formControlName="start_date" />
-         <div *ngIf="form.get('start_date')?.errors?.['required'] && form.get('start_date')?.touched">
-            Start date is required
-         </div>
-      </div>
+      </app-form-field>
 
-      <div>
-         <label for="end_date">End Date *</label>
+      <app-form-field id="end_date" label="End Date" [form]="form">
          <input id="end_date" type="date" formControlName="end_date" />
-         <div *ngIf="form.get('end_date')?.errors?.['required'] && form.get('end_date')?.touched">
-            End date is required
-         </div>
-      </div>
+      </app-form-field>
 
-      <div>
-         <label>
-            <input type="checkbox" formControlName="is_featured" />
-            Featured Project
-         </label>
-      </div>
+      <app-form-field id="is_featured" label="Featured Project" [form]="form">
+         <input id="is_featured" type="checkbox" formControlName="is_featured" />
+      </app-form-field>
 
-      <div>
-         <label for="client_id">Client ID</label>
-         <input id="client_id" type="number" formControlName="client_id" />
+      <app-form-field id="client_id" label="Client" [form]="form">
+         <select id="client_id" formControlName="client_id">
+            <option [ngValue]="null">No Client</option>
+            @for (client of clients(); track client.id) {
+               <option [value]="client.id">{{ client.name }}</option>
+            }
+         </select>
+      </app-form-field>
+
+      <app-form-field id="skills" label="Skills" [form]="form">
+         <select id="skills" formControlName="skills" multiple>
+            @for (skill of skills(); track skill.id) {
+               <option [value]="skill.id">{{ skill.name }}</option>
+            }
+         </select>
+      </app-form-field>
+
+      <div class="flex justify-end col-span-2">
+         <button type="submit" [disabled]="!form.valid">{{ buttonText() }}</button>
       </div>
    </div>
-
-   <button type="submit" [disabled]="!form.valid" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-      Save Project
-   </button>
 </form>

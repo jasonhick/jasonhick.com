@@ -9,95 +9,322 @@
  * ---------------------------------------------------------------
  */
 
-export interface Client {
-   /** Client ID */
-   id?: number;
+export interface ClientCreate {
    /** Client name */
    name: string;
    /** Client description */
    description?: string;
-   /** Client features */
+   /**
+    * Client features
+    * @default []
+    */
    features?: string[];
+   /**
+    * Skills used at client
+    * @default []
+    */
+   skills?: string[];
    /** Client location */
    location?: string;
    /** Role at client */
    role?: string;
    /** Client website URL */
    website?: string;
-   /**
-    * Project start date
-    * @format date-time
-    */
+   /** Start date */
    start_date?: string;
-   /**
-    * Project end date
-    * @format date-time
-    */
+   /** End date */
    end_date?: string;
+   /** Associated projects */
+   projects?: ProjectMinimal[];
+}
+
+export interface ProjectMinimal {
+   /** Project ID */
+   id?: number;
+   /** Project title */
+   title?: string;
+}
+
+export interface Client {
+   /** Client name */
+   name: string;
+   /** Client description */
+   description?: string;
+   /**
+    * Client features
+    * @default []
+    */
+   features?: string[];
+   /**
+    * Skills used at client
+    * @default []
+    */
+   skills?: string[];
+   /** Client location */
+   location?: string;
+   /** Role at client */
+   role?: string;
+   /** Client website URL */
+   website?: string;
+   /** Start date */
+   start_date?: string;
+   /** End date */
+   end_date?: string;
+   /** Associated projects */
+   projects?: ProjectMinimal[];
+   /** Client ID */
+   id?: number;
    /** @format date-time */
    created_at?: string;
    /** @format date-time */
    updated_at?: string;
 }
 
-export interface Project {
-   id?: number;
+export interface ClientUpdate {
+   /** Client ID */
+   id: number;
+   /** Client name */
+   name: string;
+   /** Client description */
+   description?: string;
+   /**
+    * Client features
+    * @default []
+    */
+   features?: string[];
+   /**
+    * Skills used at client
+    * @default []
+    */
+   skills?: string[];
+   /** Client location */
+   location?: string;
+   /** Role at client */
+   role?: string;
+   /** Client website URL */
+   website?: string;
+   /** Start date */
+   start_date?: string;
+   /** End date */
+   end_date?: string;
+   /** Associated projects */
+   projects?: ProjectMinimal[];
+}
+
+export interface ProjectCreate {
    /** Project title */
    title: string;
    /** Project description */
-   description: string;
-   /** Project features */
+   description?: string;
+   /**
+    * Project features
+    * @default []
+    */
    features?: string[];
-   /** Thumbnail URL */
-   thumbnail_url: string;
    /** Live project URL */
    live_url?: string;
    /** GitHub repository URL */
    github_url?: string;
+   /** Project start date */
+   start_date?: string;
+   /** Project end date */
+   end_date?: string;
    /**
-    * Project start date
-    * @format date-time
+    * Featured project status
+    * @default false
     */
-   start_date: string;
-   /**
-    * Project end date
-    * @format date-time
-    */
-   end_date: string;
-   /** Featured project status */
    is_featured?: boolean;
    /** Associated client ID */
    client_id?: number;
-   /** @format date-time */
-   created_at?: string;
-   /** @format date-time */
-   updated_at?: string;
+   /** Associated client */
+   client?: ClientMinimal;
+   /** Project skills */
+   skills?: SkillMinimal[];
+   /** Project images */
+   images?: ImageMinimal[];
 }
 
-export interface ProjectImage {
+export interface ClientMinimal {
+   /** Client ID */
+   id?: number;
+   /** Client name */
+   name?: string;
+}
+
+export interface SkillMinimal {
+   /** Skill ID */
+   id?: number;
+   /** Skill name */
+   name?: string;
+}
+
+export interface ImageMinimal {
+   /** Image ID */
    id?: number;
    /** Image URL */
-   url: string;
+   url?: string;
    /** Image caption */
    caption?: string;
    /** Display order */
    order?: number;
-   /** Associated project ID */
-   project_id: number;
+}
+
+export interface Project {
+   /** Project title */
+   title: string;
+   /** Project description */
+   description?: string;
+   /**
+    * Project features
+    * @default []
+    */
+   features?: string[];
+   /** Live project URL */
+   live_url?: string;
+   /** GitHub repository URL */
+   github_url?: string;
+   /** Project start date */
+   start_date?: string;
+   /** Project end date */
+   end_date?: string;
+   /**
+    * Featured project status
+    * @default false
+    */
+   is_featured?: boolean;
+   /** Associated client ID */
+   client_id?: number;
+   /** Associated client */
+   client?: ClientMinimal;
+   /** Project skills */
+   skills?: SkillMinimal[];
+   /** Project images */
+   images?: ImageMinimal[];
+   /** Project ID */
+   id?: number;
    /** @format date-time */
    created_at?: string;
    /** @format date-time */
    updated_at?: string;
 }
 
-export interface Skill {
+export interface ProjectUpdate {
+   /** Project ID */
+   id: number;
+   /** Project title */
+   title: string;
+   /** Project description */
+   description?: string;
+   /**
+    * Project features
+    * @default []
+    */
+   features?: string[];
+   /** Live project URL */
+   live_url?: string;
+   /** GitHub repository URL */
+   github_url?: string;
+   /** Project start date */
+   start_date?: string;
+   /** Project end date */
+   end_date?: string;
+   /**
+    * Featured project status
+    * @default false
+    */
+   is_featured?: boolean;
+   /** Associated client ID */
+   client_id?: number;
+   /** Associated client */
+   client?: ClientMinimal;
+   /** Project skills */
+   skills?: SkillMinimal[];
+   /** Project images */
+   images?: ImageMinimal[];
+}
+
+export interface ImageCreate {
+   /** Image URL */
+   url: string;
+   /** Image caption */
+   caption?: string;
+   /**
+    * Display order
+    * @default 0
+    */
+   order?: number;
+   /** Associated project ID */
+   project_id: number;
+   /** Associated project */
+   project?: ProjectMinimal;
+}
+
+export interface Image {
+   /** Image URL */
+   url: string;
+   /** Image caption */
+   caption?: string;
+   /**
+    * Display order
+    * @default 0
+    */
+   order?: number;
+   /** Associated project ID */
+   project_id: number;
+   /** Associated project */
+   project?: ProjectMinimal;
    id?: number;
-   /** Skill name */
-   name: string;
    /** @format date-time */
    created_at?: string;
    /** @format date-time */
    updated_at?: string;
+}
+
+export interface ImageUpdate {
+   /** Image ID */
+   id: number;
+   /** Image URL */
+   url: string;
+   /** Image caption */
+   caption?: string;
+   /**
+    * Display order
+    * @default 0
+    */
+   order?: number;
+   /** Associated project ID */
+   project_id: number;
+   /** Associated project */
+   project?: ProjectMinimal;
+}
+
+export interface SkillCreate {
+   /** Skill name */
+   name: string;
+   /** Associated projects */
+   projects?: ProjectMinimal[];
+}
+
+export interface Skill {
+   /** Skill name */
+   name: string;
+   /** Associated projects */
+   projects?: ProjectMinimal[];
+   /** Skill ID */
+   id?: number;
+   /** @format date-time */
+   created_at?: string;
+   /** @format date-time */
+   updated_at?: string;
+}
+
+export interface SkillUpdate {
+   /** Skill ID */
+   id: number;
+   /** Skill name */
+   name: string;
+   /** Associated projects */
+   projects?: ProjectMinimal[];
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -325,28 +552,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags clients
-       * @name CreateClient
-       * @summary Create a new client
-       * @request POST:/clients/
-       */
-      createClient: (payload: Client, params: RequestParams = {}) =>
-         this.request<Client, any>({
-            path: `/clients/`,
-            method: 'POST',
-            body: payload,
-            format: 'json',
-            ...params
-         }),
-
-      /**
-       * No description
-       *
-       * @tags clients
-       * @name ListClients
+       * @name GetClientList
        * @summary List all clients
        * @request GET:/clients/
        */
-      listClients: (params: RequestParams = {}) =>
+      getClientList: (params: RequestParams = {}) =>
          this.request<Client[], any>({
             path: `/clients/`,
             method: 'GET',
@@ -358,14 +568,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags clients
-       * @name DeleteClient
-       * @summary Delete a client
-       * @request DELETE:/clients/{client_id}
+       * @name PostClientList
+       * @summary Create a new client
+       * @request POST:/clients/
        */
-      deleteClient: (clientId: number, params: RequestParams = {}) =>
-         this.request<void, any>({
-            path: `/clients/${clientId}`,
-            method: 'DELETE',
+      postClientList: (payload: ClientCreate, params: RequestParams = {}) =>
+         this.request<Client, any>({
+            path: `/clients/`,
+            method: 'POST',
+            body: payload,
+            type: ContentType.Json,
+            format: 'json',
             ...params
          }),
 
@@ -373,11 +586,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags clients
-       * @name GetClient
+       * @name GetClientResource
        * @summary Fetch a client by ID
        * @request GET:/clients/{client_id}
        */
-      getClient: (clientId: number, params: RequestParams = {}) =>
+      getClientResource: (clientId: number, params: RequestParams = {}) =>
          this.request<Client, any>({
             path: `/clients/${clientId}`,
             method: 'GET',
@@ -389,33 +602,66 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags clients
-       * @name UpdateClient
+       * @name PutClientResource
        * @summary Update a client
        * @request PUT:/clients/{client_id}
        */
-      updateClient: (clientId: number, payload: Client, params: RequestParams = {}) =>
+      putClientResource: (clientId: number, payload: ClientUpdate, params: RequestParams = {}) =>
          this.request<Client, any>({
             path: `/clients/${clientId}`,
             method: 'PUT',
             body: payload,
+            type: ContentType.Json,
             format: 'json',
+            ...params
+         }),
+
+      /**
+       * No description
+       *
+       * @tags clients
+       * @name DeleteClientResource
+       * @summary Delete a client
+       * @request DELETE:/clients/{client_id}
+       */
+      deleteClientResource: (clientId: number, params: RequestParams = {}) =>
+         this.request<void, any>({
+            path: `/clients/${clientId}`,
+            method: 'DELETE',
             ...params
          })
    };
-   projectImages = {
+   images = {
       /**
        * No description
        *
-       * @tags project-images
-       * @name CreateProjectImage
-       * @summary Create a new project image
-       * @request POST:/project-images/
+       * @tags images
+       * @name GetImageList
+       * @summary List all images
+       * @request GET:/images/
        */
-      createProjectImage: (payload: ProjectImage, params: RequestParams = {}) =>
-         this.request<ProjectImage, any>({
-            path: `/project-images/`,
+      getImageList: (params: RequestParams = {}) =>
+         this.request<Image[], any>({
+            path: `/images/`,
+            method: 'GET',
+            format: 'json',
+            ...params
+         }),
+
+      /**
+       * No description
+       *
+       * @tags images
+       * @name PostImageList
+       * @summary Create a new image
+       * @request POST:/images/
+       */
+      postImageList: (payload: ImageCreate, params: RequestParams = {}) =>
+         this.request<Image, any>({
+            path: `/images/`,
             method: 'POST',
             body: payload,
+            type: ContentType.Json,
             format: 'json',
             ...params
          }),
@@ -423,14 +669,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       /**
        * No description
        *
-       * @tags project-images
-       * @name ListProjectImages
-       * @summary List all project images
-       * @request GET:/project-images/
+       * @tags images
+       * @name GetImageResource
+       * @summary Fetch an image by ID
+       * @request GET:/images/{image_id}
        */
-      listProjectImages: (params: RequestParams = {}) =>
-         this.request<ProjectImage[], any>({
-            path: `/project-images/`,
+      getImageResource: (imageId: number, params: RequestParams = {}) =>
+         this.request<Image, any>({
+            path: `/images/${imageId}`,
             method: 'GET',
             format: 'json',
             ...params
@@ -439,48 +685,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       /**
        * No description
        *
-       * @tags project-images
-       * @name DeleteProjectImage
-       * @summary Delete a project image
-       * @request DELETE:/project-images/{image_id}
+       * @tags images
+       * @name PutImageResource
+       * @summary Update an image
+       * @request PUT:/images/{image_id}
        */
-      deleteProjectImage: (imageId: number, params: RequestParams = {}) =>
-         this.request<void, any>({
-            path: `/project-images/${imageId}`,
-            method: 'DELETE',
-            ...params
-         }),
-
-      /**
-       * No description
-       *
-       * @tags project-images
-       * @name GetProjectImage
-       * @summary Fetch a project image by ID
-       * @request GET:/project-images/{image_id}
-       */
-      getProjectImage: (imageId: number, params: RequestParams = {}) =>
-         this.request<ProjectImage, any>({
-            path: `/project-images/${imageId}`,
-            method: 'GET',
-            format: 'json',
-            ...params
-         }),
-
-      /**
-       * No description
-       *
-       * @tags project-images
-       * @name UpdateProjectImage
-       * @summary Update a project image
-       * @request PUT:/project-images/{image_id}
-       */
-      updateProjectImage: (imageId: number, payload: ProjectImage, params: RequestParams = {}) =>
-         this.request<ProjectImage, any>({
-            path: `/project-images/${imageId}`,
+      putImageResource: (imageId: number, payload: ImageUpdate, params: RequestParams = {}) =>
+         this.request<Image, any>({
+            path: `/images/${imageId}`,
             method: 'PUT',
             body: payload,
+            type: ContentType.Json,
             format: 'json',
+            ...params
+         }),
+
+      /**
+       * No description
+       *
+       * @tags images
+       * @name DeleteImageResource
+       * @summary Delete an image
+       * @request DELETE:/images/{image_id}
+       */
+      deleteImageResource: (imageId: number, params: RequestParams = {}) =>
+         this.request<void, any>({
+            path: `/images/${imageId}`,
+            method: 'DELETE',
             ...params
          })
    };
@@ -489,28 +720,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags projects
-       * @name CreateProject
-       * @summary Create a new project
-       * @request POST:/projects/
-       */
-      createProject: (payload: Project, params: RequestParams = {}) =>
-         this.request<Project, any>({
-            path: `/projects/`,
-            method: 'POST',
-            body: payload,
-            format: 'json',
-            ...params
-         }),
-
-      /**
-       * No description
-       *
-       * @tags projects
-       * @name ListProjects
+       * @name GetProjectList
        * @summary List all projects
        * @request GET:/projects/
        */
-      listProjects: (params: RequestParams = {}) =>
+      getProjectList: (params: RequestParams = {}) =>
          this.request<Project[], any>({
             path: `/projects/`,
             method: 'GET',
@@ -522,14 +736,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags projects
-       * @name DeleteProject
-       * @summary Delete a project
-       * @request DELETE:/projects/{project_id}
+       * @name PostProjectList
+       * @summary Create a new project
+       * @request POST:/projects/
        */
-      deleteProject: (projectId: number, params: RequestParams = {}) =>
-         this.request<void, any>({
-            path: `/projects/${projectId}`,
-            method: 'DELETE',
+      postProjectList: (payload: ProjectCreate, params: RequestParams = {}) =>
+         this.request<Project, any>({
+            path: `/projects/`,
+            method: 'POST',
+            body: payload,
+            type: ContentType.Json,
+            format: 'json',
             ...params
          }),
 
@@ -537,11 +754,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags projects
-       * @name GetProject
+       * @name GetProjectResource
        * @summary Fetch a project by ID
        * @request GET:/projects/{project_id}
        */
-      getProject: (projectId: number, params: RequestParams = {}) =>
+      getProjectResource: (projectId: number, params: RequestParams = {}) =>
          this.request<Project, any>({
             path: `/projects/${projectId}`,
             method: 'GET',
@@ -553,16 +770,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags projects
-       * @name UpdateProject
+       * @name PutProjectResource
        * @summary Update a project
        * @request PUT:/projects/{project_id}
        */
-      updateProject: (projectId: number, payload: Project, params: RequestParams = {}) =>
+      putProjectResource: (projectId: number, payload: ProjectUpdate, params: RequestParams = {}) =>
          this.request<Project, any>({
             path: `/projects/${projectId}`,
             method: 'PUT',
             body: payload,
+            type: ContentType.Json,
             format: 'json',
+            ...params
+         }),
+
+      /**
+       * No description
+       *
+       * @tags projects
+       * @name DeleteProjectResource
+       * @summary Delete a project
+       * @request DELETE:/projects/{project_id}
+       */
+      deleteProjectResource: (projectId: number, params: RequestParams = {}) =>
+         this.request<void, any>({
+            path: `/projects/${projectId}`,
+            method: 'DELETE',
             ...params
          })
    };
@@ -571,28 +804,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags skills
-       * @name CreateSkill
-       * @summary Create a new skill
-       * @request POST:/skills/
-       */
-      createSkill: (payload: Skill, params: RequestParams = {}) =>
-         this.request<Skill, any>({
-            path: `/skills/`,
-            method: 'POST',
-            body: payload,
-            format: 'json',
-            ...params
-         }),
-
-      /**
-       * No description
-       *
-       * @tags skills
-       * @name ListSkills
+       * @name GetSkillList
        * @summary List all skills
        * @request GET:/skills/
        */
-      listSkills: (params: RequestParams = {}) =>
+      getSkillList: (params: RequestParams = {}) =>
          this.request<Skill[], any>({
             path: `/skills/`,
             method: 'GET',
@@ -604,14 +820,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags skills
-       * @name DeleteSkill
-       * @summary Delete a skill
-       * @request DELETE:/skills/{skill_id}
+       * @name PostSkillList
+       * @summary Create a new skill
+       * @request POST:/skills/
        */
-      deleteSkill: (skillId: number, params: RequestParams = {}) =>
-         this.request<void, any>({
-            path: `/skills/${skillId}`,
-            method: 'DELETE',
+      postSkillList: (payload: SkillCreate, params: RequestParams = {}) =>
+         this.request<Skill, any>({
+            path: `/skills/`,
+            method: 'POST',
+            body: payload,
+            type: ContentType.Json,
+            format: 'json',
             ...params
          }),
 
@@ -619,11 +838,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags skills
-       * @name GetSkill
+       * @name GetSkillResource
        * @summary Fetch a skill by ID
        * @request GET:/skills/{skill_id}
        */
-      getSkill: (skillId: number, params: RequestParams = {}) =>
+      getSkillResource: (skillId: number, params: RequestParams = {}) =>
          this.request<Skill, any>({
             path: `/skills/${skillId}`,
             method: 'GET',
@@ -635,16 +854,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
        * No description
        *
        * @tags skills
-       * @name UpdateSkill
+       * @name PutSkillResource
        * @summary Update a skill
        * @request PUT:/skills/{skill_id}
        */
-      updateSkill: (skillId: number, payload: Skill, params: RequestParams = {}) =>
+      putSkillResource: (skillId: number, payload: SkillUpdate, params: RequestParams = {}) =>
          this.request<Skill, any>({
             path: `/skills/${skillId}`,
             method: 'PUT',
             body: payload,
+            type: ContentType.Json,
             format: 'json',
+            ...params
+         }),
+
+      /**
+       * No description
+       *
+       * @tags skills
+       * @name DeleteSkillResource
+       * @summary Delete a skill
+       * @request DELETE:/skills/{skill_id}
+       */
+      deleteSkillResource: (skillId: number, params: RequestParams = {}) =>
+         this.request<void, any>({
+            path: `/skills/${skillId}`,
+            method: 'DELETE',
             ...params
          })
    };
