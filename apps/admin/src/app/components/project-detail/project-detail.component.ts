@@ -61,17 +61,16 @@ export class ProjectDetailComponent implements OnInit {
    private initForm(): void {
       this.form = this.fb.group({
          id: [null],
-         title: ['', Validators.required],
+         client_id: [null, Validators.required],
          description: ['', Validators.required],
+         end_date: [''],
          features: this.fb.array([]),
-         thumbnail_url: ['', Validators.required],
-         live_url: [''],
          github_url: [''],
-         start_date: ['', Validators.required],
-         end_date: ['', Validators.required],
          is_featured: [false],
-         client_id: [null],
-         skills: [[]]
+         live_url: [''],
+         skills: [[]],
+         start_date: [''],
+         title: ['', Validators.required]
       });
    }
 
@@ -166,6 +165,8 @@ export class ProjectDetailComponent implements OnInit {
             end_date: formData.end_date ? new Date(formData.end_date).toISOString() : ''
          };
 
+         data.client_id = Number(data.client_id);
+
          const save$ = id ? this.projectService.updateProject({ id, ...data }) : this.projectService.saveProject(data);
 
          save$
@@ -201,5 +202,39 @@ export class ProjectDetailComponent implements OnInit {
             )
             .subscribe();
       }
+   }
+
+   public updateSkills(event: Event, skillId: number): void {
+      const checkbox = event.target as HTMLInputElement;
+      const currentSkills = this.form.get('skills')?.value || [];
+
+      if (checkbox.checked) {
+         this.form.get('skills')?.setValue([...currentSkills, skillId]);
+      } else {
+         this.form.get('skills')?.setValue(currentSkills.filter((id: number) => id !== skillId));
+      }
+   }
+
+   isSkillSelected(skillId: number | undefined): boolean {
+      if (!skillId) return false;
+      const skills = this.form.get('skills')?.value || [];
+      return skills.includes(skillId);
+   }
+
+   onSkillChange(event: Event, skillId: number | undefined) {
+      if (!skillId) return;
+      const checkbox = event.target as HTMLInputElement;
+      const skills = [...(this.form.get('skills')?.value || [])];
+
+      if (checkbox.checked && !skills.includes(skillId)) {
+         skills.push(skillId);
+      } else if (!checkbox.checked) {
+         const index = skills.indexOf(skillId);
+         if (index > -1) {
+            skills.splice(index, 1);
+         }
+      }
+
+      this.form.patchValue({ skills });
    }
 }

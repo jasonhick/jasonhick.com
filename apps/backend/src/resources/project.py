@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from backend.src.database import db
-from backend.src.models import Project
+from backend.src.models import Project, Skill
 from flask_restx import Namespace, Resource, fields
 
 project_ns = Namespace("projects", description="Project operations")
@@ -12,14 +12,6 @@ client_minimal = project_ns.model(
     {
         "id": fields.Integer(description="Client ID"),
         "name": fields.String(description="Client name"),
-    },
-)
-
-skill_minimal = project_ns.model(
-    "SkillMinimal",
-    {
-        "id": fields.Integer(description="Skill ID"),
-        "name": fields.String(description="Skill name"),
     },
 )
 
@@ -36,16 +28,21 @@ image_minimal = project_ns.model(
 # Common field definitions
 project_fields = {
     "title": fields.String(required=True, description="Project title"),
-    "description": fields.String(description="Project description"),
+    "description": fields.String(required=True, description="Project description"),
     "features": fields.List(fields.String, description="Project features", default=[]),
     "live_url": fields.String(description="Live project URL", allow_null=True),
     "github_url": fields.String(description="GitHub repository URL", allow_null=True),
-    "start_date": fields.String(description="Project start date"),
-    "end_date": fields.String(description="Project end date"),
+    "start_date": fields.String(required=True, description="Project start date"),
+    "end_date": fields.String(required=True, description="Project end date"),
     "is_featured": fields.Boolean(description="Featured project status", default=False),
     "client_id": fields.Integer(description="Associated client ID", allow_null=True),
     "client": fields.Nested(client_minimal, description="Associated client"),
-    "skills": fields.List(fields.Nested(skill_minimal), description="Project skills"),
+    "skills": fields.List(
+        fields.Integer,
+        description="Project skill IDs",
+        default=[],
+        attribute=lambda x: [skill.id for skill in x.skills],
+    ),
     "images": fields.List(fields.Nested(image_minimal), description="Project images"),
 }
 
@@ -97,6 +94,12 @@ class ProjectList(Resource):
 
         if not data.get("title"):
             project_ns.abort(400, "Title is required")
+        if not data.get("description"):
+            project_ns.abort(400, "Description is required")
+        if not data.get("start_date"):
+            project_ns.abort(400, "Start date is required")
+        if not data.get("end_date"):
+            project_ns.abort(400, "End date is required")
 
         # Handle dates
         start_date = (
@@ -117,6 +120,12 @@ class ProjectList(Resource):
             is_featured=data.get("is_featured", False),
             client_id=data.get("client_id"),
         )
+
+        # Handle skills
+        if "skills" in data:
+            skill_ids = data.get("skills", [])
+            skills = Skill.query.filter(Skill.id.in_(skill_ids)).all()
+            project.skills = skills
 
         db.session.add(project)
         db.session.commit()
@@ -139,6 +148,12 @@ class ProjectResource(Resource):
 
         if not data.get("title"):
             project_ns.abort(400, "Title is required")
+        if not data.get("description"):
+            project_ns.abort(400, "Description is required")
+        if not data.get("start_date"):
+            project_ns.abort(400, "Start date is required")
+        if not data.get("end_date"):
+            project_ns.abort(400, "End date is required")
 
         # Handle dates
         start_date = (
@@ -157,6 +172,12 @@ class ProjectResource(Resource):
         project.end_date = end_date
         project.is_featured = data.get("is_featured", False)
         project.client_id = data.get("client_id")
+
+        # Update skills
+        if "skills" in data:
+            skill_ids = data.get("skills", [])
+            skills = Skill.query.filter(Skill.id.in_(skill_ids)).all()
+            project.skills = skills
 
         db.session.commit()
         return project

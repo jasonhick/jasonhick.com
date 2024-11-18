@@ -5,17 +5,65 @@
 }
 
 <form [formGroup]="form" (ngSubmit)="saveProject()">
-   <div class="grid grid-cols-2 gap-4">
+   <div class="grid grid-cols-2 gap-y-5 gap-x-10">
+
+      <app-form-field id="client_id" label="Client" [form]="form" [required]="true">
+         <select id="client_id" formControlName="client_id">
+            <option [ngValue]="null">No Client</option>
+            @for (client of clients(); track client.id) {
+               <option [value]="client.id">{{ client.name }}</option>
+            }
+         </select>
+      </app-form-field>  
+      
+      <div class="col-span-1 row-span-7">
+         <div class="flex flex-col gap-2">
+            @for (skill of skills(); track skill.id) {
+               <label class="flex items-center gap-2">
+                  <input type="checkbox" 
+                         [checked]="isSkillSelected(skill.id!)"
+                         (change)="onSkillChange($event, skill.id!)">
+                  {{ skill.name }}
+               </label>
+            }
+         </div>
+      </div>
       
       <app-form-field id="title" label="Title" [form]="form" [required]="true">
          <input id="title" type="text" formControlName="title" />
       </app-form-field>
 
-      <app-form-field id="description" label="Description" [form]="form" class="row-span-3">
-         <textarea id="description" formControlName="description"></textarea>
+      <app-form-field id="start_date" label="Start Date" [form]="form">
+         <input id="start_date" type="date" formControlName="start_date" />
       </app-form-field>
 
-      <app-form-field id="features" label="Features" [form]="form" class="row-span-3">
+      <app-form-field id="end_date" label="End Date" [form]="form">
+         <input id="end_date" type="date" formControlName="end_date" />
+      </app-form-field>
+
+      <app-form-field id="live_url" label="Live URL" [form]="form">
+         <input id="live_url" type="url" formControlName="live_url" />
+      </app-form-field>
+
+      <app-form-field id="github_url" label="GitHub URL" [form]="form">
+         <input id="github_url" type="url" formControlName="github_url" />
+      </app-form-field>
+
+      <app-form-field id="is_featured" label="Featured Project" [form]="form">
+         <input id="is_featured" type="checkbox" formControlName="is_featured" />
+      </app-form-field>
+
+   </div>
+
+
+
+   <div class="grid grid-cols-2 gap-4">
+
+      <app-form-field id="description" label="Description" [form]="form" [required]="true">
+         <textarea id="description" formControlName="description"></textarea>
+      </app-form-field>  
+
+      <app-form-field id="features" label="Features" [form]="form">
          <div formArrayName="features">
             @for (feature of features.controls; track $index) {
                <div class="flex gap-2 mb-2">
@@ -32,49 +80,16 @@
          </div>
       </app-form-field>
 
-      <app-form-field id="thumbnail_url" label="Thumbnail URL" [form]="form">
-         <input id="thumbnail_url" type="url" formControlName="thumbnail_url" />
-      </app-form-field>
-
-      <app-form-field id="live_url" label="Live URL" [form]="form">
-         <input id="live_url" type="url" formControlName="live_url" />
-      </app-form-field>
-
-      <app-form-field id="github_url" label="GitHub URL" [form]="form">
-         <input id="github_url" type="url" formControlName="github_url" />
-      </app-form-field>
-
-      <app-form-field id="start_date" label="Start Date" [form]="form">
-         <input id="start_date" type="date" formControlName="start_date" />
-      </app-form-field>
-
-      <app-form-field id="end_date" label="End Date" [form]="form">
-         <input id="end_date" type="date" formControlName="end_date" />
-      </app-form-field>
-
-      <app-form-field id="is_featured" label="Featured Project" [form]="form">
-         <input id="is_featured" type="checkbox" formControlName="is_featured" />
-      </app-form-field>
-
-      <app-form-field id="client_id" label="Client" [form]="form">
-         <select id="client_id" formControlName="client_id">
-            <option [ngValue]="null">No Client</option>
-            @for (client of clients(); track client.id) {
-               <option [value]="client.id">{{ client.name }}</option>
-            }
-         </select>
-      </app-form-field>
-
-      <app-form-field id="skills" label="Skills" [form]="form">
-         <select id="skills" formControlName="skills" multiple>
-            @for (skill of skills(); track skill.id) {
-               <option [value]="skill.id">{{ skill.name }}</option>
-            }
-         </select>
-      </app-form-field>
-
       <div class="flex justify-end col-span-2">
          <button type="submit" [disabled]="!form.valid">{{ buttonText() }}</button>
       </div>
+
+
    </div>
+
+
+
+   {{ form.value | json }}
+
+
 </form>

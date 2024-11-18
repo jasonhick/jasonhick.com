@@ -3,24 +3,6 @@
   "basePath": "/api",
   "paths": {
     "/clients/": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Client"
-              }
-            }
-          }
-        },
-        "summary": "List all clients",
-        "operationId": "get_client_list",
-        "tags": [
-          "clients"
-        ]
-      },
       "post": {
         "responses": {
           "200": {
@@ -45,6 +27,24 @@
         "tags": [
           "clients"
         ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Client"
+              }
+            }
+          }
+        },
+        "summary": "List all clients",
+        "operationId": "get_client_list",
+        "tags": [
+          "clients"
+        ]
       }
     },
     "/clients/{client_id}": {
@@ -56,17 +56,14 @@
           "type": "integer"
         }
       ],
-      "get": {
+      "delete": {
         "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Client"
-            }
+          "204": {
+            "description": "Client deleted"
           }
         },
-        "summary": "Fetch a client by ID",
-        "operationId": "get_client_resource",
+        "summary": "Delete a client",
+        "operationId": "delete_client_resource",
         "tags": [
           "clients"
         ]
@@ -96,38 +93,23 @@
           "clients"
         ]
       },
-      "delete": {
+      "get": {
         "responses": {
-          "204": {
-            "description": "Client deleted"
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
           }
         },
-        "summary": "Delete a client",
-        "operationId": "delete_client_resource",
+        "summary": "Fetch a client by ID",
+        "operationId": "get_client_resource",
         "tags": [
           "clients"
         ]
       }
     },
     "/images/": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Image"
-              }
-            }
-          }
-        },
-        "summary": "List all images",
-        "operationId": "get_image_list",
-        "tags": [
-          "images"
-        ]
-      },
       "post": {
         "responses": {
           "200": {
@@ -152,6 +134,24 @@
         "tags": [
           "images"
         ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Image"
+              }
+            }
+          }
+        },
+        "summary": "List all images",
+        "operationId": "get_image_list",
+        "tags": [
+          "images"
+        ]
       }
     },
     "/images/{image_id}": {
@@ -163,17 +163,14 @@
           "type": "integer"
         }
       ],
-      "get": {
+      "delete": {
         "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Image"
-            }
+          "204": {
+            "description": "Image deleted"
           }
         },
-        "summary": "Fetch an image by ID",
-        "operationId": "get_image_resource",
+        "summary": "Delete an image",
+        "operationId": "delete_image_resource",
         "tags": [
           "images"
         ]
@@ -203,38 +200,23 @@
           "images"
         ]
       },
-      "delete": {
+      "get": {
         "responses": {
-          "204": {
-            "description": "Image deleted"
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Image"
+            }
           }
         },
-        "summary": "Delete an image",
-        "operationId": "delete_image_resource",
+        "summary": "Fetch an image by ID",
+        "operationId": "get_image_resource",
         "tags": [
           "images"
         ]
       }
     },
     "/projects/": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Project"
-              }
-            }
-          }
-        },
-        "summary": "List all projects",
-        "operationId": "get_project_list",
-        "tags": [
-          "projects"
-        ]
-      },
       "post": {
         "responses": {
           "200": {
@@ -259,6 +241,24 @@
         "tags": [
           "projects"
         ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
+            }
+          }
+        },
+        "summary": "List all projects",
+        "operationId": "get_project_list",
+        "tags": [
+          "projects"
+        ]
       }
     },
     "/projects/{project_id}": {
@@ -270,17 +270,14 @@
           "type": "integer"
         }
       ],
-      "get": {
+      "delete": {
         "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Project"
-            }
+          "204": {
+            "description": "Project deleted"
           }
         },
-        "summary": "Fetch a project by ID",
-        "operationId": "get_project_resource",
+        "summary": "Delete a project",
+        "operationId": "delete_project_resource",
         "tags": [
           "projects"
         ]
@@ -310,38 +307,23 @@
           "projects"
         ]
       },
-      "delete": {
+      "get": {
         "responses": {
-          "204": {
-            "description": "Project deleted"
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
           }
         },
-        "summary": "Delete a project",
-        "operationId": "delete_project_resource",
+        "summary": "Fetch a project by ID",
+        "operationId": "get_project_resource",
         "tags": [
           "projects"
         ]
       }
     },
     "/skills/": {
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Skill"
-              }
-            }
-          }
-        },
-        "summary": "List all skills",
-        "operationId": "get_skill_list",
-        "tags": [
-          "skills"
-        ]
-      },
       "post": {
         "responses": {
           "200": {
@@ -366,6 +348,24 @@
         "tags": [
           "skills"
         ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Skill"
+              }
+            }
+          }
+        },
+        "summary": "List all skills",
+        "operationId": "get_skill_list",
+        "tags": [
+          "skills"
+        ]
       }
     },
     "/skills/{skill_id}": {
@@ -377,17 +377,14 @@
           "type": "integer"
         }
       ],
-      "get": {
+      "delete": {
         "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Skill"
-            }
+          "204": {
+            "description": "Skill deleted"
           }
         },
-        "summary": "Fetch a skill by ID",
-        "operationId": "get_skill_resource",
+        "summary": "Delete a skill",
+        "operationId": "delete_skill_resource",
         "tags": [
           "skills"
         ]
@@ -417,14 +414,17 @@
           "skills"
         ]
       },
-      "delete": {
+      "get": {
         "responses": {
-          "204": {
-            "description": "Skill deleted"
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
           }
         },
-        "summary": "Delete a skill",
-        "operationId": "delete_skill_resource",
+        "summary": "Fetch a skill by ID",
+        "operationId": "get_skill_resource",
         "tags": [
           "skills"
         ]
@@ -691,6 +691,9 @@
     },
     "ProjectCreate": {
       "required": [
+        "description",
+        "end_date",
+        "start_date",
         "title"
       ],
       "properties": {
@@ -745,9 +748,10 @@
         },
         "skills": {
           "type": "array",
-          "description": "Project skills",
+          "description": "Project skill IDs",
+          "default": [],
           "items": {
-            "$ref": "#/definitions/SkillMinimal"
+            "type": "integer"
           }
         },
         "images": {
@@ -769,19 +773,6 @@
         "name": {
           "type": "string",
           "description": "Client name"
-        }
-      },
-      "type": "object"
-    },
-    "SkillMinimal": {
-      "properties": {
-        "id": {
-          "type": "integer",
-          "description": "Skill ID"
-        },
-        "name": {
-          "type": "string",
-          "description": "Skill name"
         }
       },
       "type": "object"
@@ -809,6 +800,9 @@
     },
     "Project": {
       "required": [
+        "description",
+        "end_date",
+        "start_date",
         "title"
       ],
       "properties": {
@@ -863,9 +857,10 @@
         },
         "skills": {
           "type": "array",
-          "description": "Project skills",
+          "description": "Project skill IDs",
+          "default": [],
           "items": {
-            "$ref": "#/definitions/SkillMinimal"
+            "type": "integer"
           }
         },
         "images": {
@@ -895,7 +890,10 @@
     },
     "ProjectUpdate": {
       "required": [
+        "description",
+        "end_date",
         "id",
+        "start_date",
         "title"
       ],
       "properties": {
@@ -955,9 +953,10 @@
         },
         "skills": {
           "type": "array",
-          "description": "Project skills",
+          "description": "Project skill IDs",
+          "default": [],
           "items": {
-            "$ref": "#/definitions/SkillMinimal"
+            "type": "integer"
           }
         },
         "images": {
