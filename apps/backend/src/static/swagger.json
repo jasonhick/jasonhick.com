@@ -3,6 +3,24 @@
   "basePath": "/api",
   "paths": {
     "/clients/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Client"
+              }
+            }
+          }
+        },
+        "summary": "List all clients",
+        "operationId": "get_client_list",
+        "tags": [
+          "clients"
+        ]
+      },
       "post": {
         "responses": {
           "200": {
@@ -27,24 +45,6 @@
         "tags": [
           "clients"
         ]
-      },
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Client"
-              }
-            }
-          }
-        },
-        "summary": "List all clients",
-        "operationId": "get_client_list",
-        "tags": [
-          "clients"
-        ]
       }
     },
     "/clients/{client_id}": {
@@ -56,6 +56,21 @@
           "type": "integer"
         }
       ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          }
+        },
+        "summary": "Fetch a client by ID",
+        "operationId": "get_client_resource",
+        "tags": [
+          "clients"
+        ]
+      },
       "delete": {
         "responses": {
           "204": {
@@ -92,24 +107,27 @@
         "tags": [
           "clients"
         ]
-      },
+      }
+    },
+    "/images/": {
       "get": {
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Client"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Image"
+              }
             }
           }
         },
-        "summary": "Fetch a client by ID",
-        "operationId": "get_client_resource",
+        "summary": "List all images",
+        "operationId": "get_image_list",
         "tags": [
-          "clients"
+          "images"
         ]
-      }
-    },
-    "/images/": {
+      },
       "post": {
         "responses": {
           "200": {
@@ -134,24 +152,6 @@
         "tags": [
           "images"
         ]
-      },
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Image"
-              }
-            }
-          }
-        },
-        "summary": "List all images",
-        "operationId": "get_image_list",
-        "tags": [
-          "images"
-        ]
       }
     },
     "/images/{image_id}": {
@@ -163,6 +163,21 @@
           "type": "integer"
         }
       ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Image"
+            }
+          }
+        },
+        "summary": "Fetch an image by ID",
+        "operationId": "get_image_resource",
+        "tags": [
+          "images"
+        ]
+      },
       "delete": {
         "responses": {
           "204": {
@@ -199,24 +214,27 @@
         "tags": [
           "images"
         ]
-      },
+      }
+    },
+    "/projects/": {
       "get": {
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Image"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
             }
           }
         },
-        "summary": "Fetch an image by ID",
-        "operationId": "get_image_resource",
+        "summary": "List all projects",
+        "operationId": "get_project_list",
         "tags": [
-          "images"
+          "projects"
         ]
-      }
-    },
-    "/projects/": {
+      },
       "post": {
         "responses": {
           "200": {
@@ -241,24 +259,6 @@
         "tags": [
           "projects"
         ]
-      },
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Project"
-              }
-            }
-          }
-        },
-        "summary": "List all projects",
-        "operationId": "get_project_list",
-        "tags": [
-          "projects"
-        ]
       }
     },
     "/projects/{project_id}": {
@@ -270,6 +270,21 @@
           "type": "integer"
         }
       ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          }
+        },
+        "summary": "Fetch a project by ID",
+        "operationId": "get_project_resource",
+        "tags": [
+          "projects"
+        ]
+      },
       "delete": {
         "responses": {
           "204": {
@@ -306,24 +321,27 @@
         "tags": [
           "projects"
         ]
-      },
+      }
+    },
+    "/skills/": {
       "get": {
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/Project"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Skill"
+              }
             }
           }
         },
-        "summary": "Fetch a project by ID",
-        "operationId": "get_project_resource",
+        "summary": "List all skills",
+        "operationId": "get_skill_list",
         "tags": [
-          "projects"
+          "skills"
         ]
-      }
-    },
-    "/skills/": {
+      },
       "post": {
         "responses": {
           "200": {
@@ -348,24 +366,6 @@
         "tags": [
           "skills"
         ]
-      },
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Skill"
-              }
-            }
-          }
-        },
-        "summary": "List all skills",
-        "operationId": "get_skill_list",
-        "tags": [
-          "skills"
-        ]
       }
     },
     "/skills/{skill_id}": {
@@ -377,6 +377,21 @@
           "type": "integer"
         }
       ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
+          }
+        },
+        "summary": "Fetch a skill by ID",
+        "operationId": "get_skill_resource",
+        "tags": [
+          "skills"
+        ]
+      },
       "delete": {
         "responses": {
           "204": {
@@ -410,21 +425,6 @@
             }
           }
         ],
-        "tags": [
-          "skills"
-        ]
-      },
-      "get": {
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Skill"
-            }
-          }
-        },
-        "summary": "Fetch a skill by ID",
-        "operationId": "get_skill_resource",
         "tags": [
           "skills"
         ]
@@ -734,17 +734,14 @@
           "description": "Featured project status",
           "default": false
         },
+        "is_current": {
+          "type": "boolean",
+          "description": "Current project status",
+          "default": false
+        },
         "client_id": {
           "type": "integer",
           "description": "Associated client ID"
-        },
-        "client": {
-          "description": "Associated client",
-          "allOf": [
-            {
-              "$ref": "#/definitions/ClientMinimal"
-            }
-          ]
         },
         "skills": {
           "type": "array",
@@ -760,19 +757,6 @@
           "items": {
             "$ref": "#/definitions/ImageMinimal"
           }
-        }
-      },
-      "type": "object"
-    },
-    "ClientMinimal": {
-      "properties": {
-        "id": {
-          "type": "integer",
-          "description": "Client ID"
-        },
-        "name": {
-          "type": "string",
-          "description": "Client name"
         }
       },
       "type": "object"
@@ -843,17 +827,14 @@
           "description": "Featured project status",
           "default": false
         },
+        "is_current": {
+          "type": "boolean",
+          "description": "Current project status",
+          "default": false
+        },
         "client_id": {
           "type": "integer",
           "description": "Associated client ID"
-        },
-        "client": {
-          "description": "Associated client",
-          "allOf": [
-            {
-              "$ref": "#/definitions/ClientMinimal"
-            }
-          ]
         },
         "skills": {
           "type": "array",
@@ -875,6 +856,14 @@
           "description": "Project ID",
           "readOnly": true
         },
+        "client": {
+          "description": "Associated client",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ClientMinimal"
+            }
+          ]
+        },
         "created_at": {
           "type": "string",
           "format": "date-time",
@@ -884,6 +873,19 @@
           "type": "string",
           "format": "date-time",
           "readOnly": true
+        }
+      },
+      "type": "object"
+    },
+    "ClientMinimal": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Client ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Client name"
         }
       },
       "type": "object"
@@ -939,17 +941,14 @@
           "description": "Featured project status",
           "default": false
         },
+        "is_current": {
+          "type": "boolean",
+          "description": "Current project status",
+          "default": false
+        },
         "client_id": {
           "type": "integer",
           "description": "Associated client ID"
-        },
-        "client": {
-          "description": "Associated client",
-          "allOf": [
-            {
-              "$ref": "#/definitions/ClientMinimal"
-            }
-          ]
         },
         "skills": {
           "type": "array",

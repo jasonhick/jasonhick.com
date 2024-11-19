@@ -74,16 +74,23 @@
          </div>
       </app-form-field>
 
-      <div class="flex justify-end col-span-2">
-         <button type="submit" [disabled]="!form.valid">{{ buttonText() }}</button>
-      </div>
 
+
+      <div class="flex w-full">
+         <div class="flex-1">
+            <button type="button" (click)="deleteProject()" [disabled]="!selectedProject() || form.invalid">Delete</button>
+         </div>
+         <div class="flex-1 text-right">
+            <button type="submit" [disabled]="!form.valid">{{ buttonText() }}</button>
+         </div>
+      </div>
 
    </div>
 
 
-
-   {{ form.value | json }}
+<pre>
+{{ form.value | json }}
+</pre>
 
 
 </form>

@@ -35,8 +35,8 @@ project_fields = {
     "start_date": fields.String(required=True, description="Project start date"),
     "end_date": fields.String(required=True, description="Project end date"),
     "is_featured": fields.Boolean(description="Featured project status", default=False),
+    "is_current": fields.Boolean(description="Current project status", default=False),
     "client_id": fields.Integer(description="Associated client ID", allow_null=True),
-    "client": fields.Nested(client_minimal, description="Associated client"),
     "skills": fields.List(
         fields.Integer,
         description="Project skill IDs",
@@ -49,6 +49,7 @@ project_fields = {
 # Readonly fields for responses
 readonly_fields = {
     "id": fields.Integer(readonly=True, description="Project ID"),
+    "client": fields.Nested(client_minimal, description="Associated client"),
     "created_at": fields.DateTime(readonly=True),
     "updated_at": fields.DateTime(readonly=True),
 }
@@ -92,6 +93,7 @@ class ProjectList(Resource):
         """Create a new project"""
         data = project_ns.payload
 
+        # Validation
         if not data.get("title"):
             project_ns.abort(400, "Title is required")
         if not data.get("description"):
@@ -109,6 +111,7 @@ class ProjectList(Resource):
             None if not data.get("end_date") else parse_datetime(data["end_date"])
         )
 
+        # Create project with basic fields
         project = Project(
             title=data["title"],
             description=data.get("description"),
@@ -118,14 +121,16 @@ class ProjectList(Resource):
             start_date=start_date,
             end_date=end_date,
             is_featured=data.get("is_featured", False),
+            is_current=data.get("is_current", False),
             client_id=data.get("client_id"),
         )
 
-        # Handle skills
+        # Handle skills explicitly
         if "skills" in data:
             skill_ids = data.get("skills", [])
-            skills = Skill.query.filter(Skill.id.in_(skill_ids)).all()
-            project.skills = skills
+            if skill_ids:
+                skills = Skill.query.filter(Skill.id.in_(skill_ids)).all()
+                project.skills = skills
 
         db.session.add(project)
         db.session.commit()
@@ -163,6 +168,7 @@ class ProjectResource(Resource):
             None if not data.get("end_date") else parse_datetime(data["end_date"])
         )
 
+        # Update basic fields first
         project.title = data["title"]
         project.description = data.get("description")
         project.features = data.get("features", [])
@@ -171,13 +177,19 @@ class ProjectResource(Resource):
         project.start_date = start_date
         project.end_date = end_date
         project.is_featured = data.get("is_featured", False)
+        project.is_current = data.get("is_current", False)
         project.client_id = data.get("client_id")
 
-        # Update skills
+        # Handle skills update explicitly
         if "skills" in data:
             skill_ids = data.get("skills", [])
-            skills = Skill.query.filter(Skill.id.in_(skill_ids)).all()
-            project.skills = skills
+            # Clear existing skills
+            project.skills = []
+            db.session.flush()
+            # Add new skills
+            if skill_ids:
+                skills = Skill.query.filter(Skill.id.in_(skill_ids)).all()
+                project.skills = skills
 
         db.session.commit()
         return project

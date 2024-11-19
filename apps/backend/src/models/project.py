@@ -8,10 +8,15 @@ project_skills = db.Table(
     db.Column(
         "project_id",
         db.Integer,
-        db.ForeignKey("projects.id"),
+        db.ForeignKey("projects.id", ondelete="CASCADE"),
         primary_key=True,
     ),
-    db.Column("skill_id", db.Integer, db.ForeignKey("skills.id"), primary_key=True),
+    db.Column(
+        "skill_id",
+        db.Integer,
+        db.ForeignKey("skills.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
 )
 
 
@@ -27,19 +32,25 @@ class Project(db.Model):
     github_url = db.Column(db.String(255), nullable=True)
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
-    is_featured = db.Column(
-        db.Boolean,
-        default=False,
-    )
+    is_current = db.Column(db.Boolean, default=False)
+    is_featured = db.Column(db.Boolean, default=False)
 
     # Foreign Keys
     client_id = db.Column(db.Integer, db.ForeignKey("clients.id"))
 
     # Relationships
-    client = db.relationship("Client", back_populates="projects")
+    client = db.relationship(
+        "Client",
+        back_populates="projects",
+        lazy="select",  # Change from default to explicit select
+    )
 
     skills = db.relationship(
-        "Skill", secondary=project_skills, lazy="joined", back_populates="projects"
+        "Skill",
+        secondary=project_skills,
+        lazy="joined",
+        back_populates="projects",
+        cascade="all, delete",
     )
 
     images = db.relationship(

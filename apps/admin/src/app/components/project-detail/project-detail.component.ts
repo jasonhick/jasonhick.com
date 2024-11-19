@@ -111,8 +111,7 @@ export class ProjectDetailComponent implements OnInit {
       const formattedProject = {
          ...project,
          start_date: project.start_date ? new Date(project.start_date).toISOString().split('T')[0] : '',
-         end_date: project.end_date ? new Date(project.end_date).toISOString().split('T')[0] : '',
-         skills: project.skills?.map((skill) => skill.id)
+         end_date: project.end_date ? new Date(project.end_date).toISOString().split('T')[0] : ''
       };
 
       this.form.patchValue(formattedProject);
@@ -191,6 +190,7 @@ export class ProjectDetailComponent implements OnInit {
     */
    public deleteProject(): void {
       const id = this.form.get('id')?.value;
+
       if (id) {
          this.projectService
             .deleteProject(id)

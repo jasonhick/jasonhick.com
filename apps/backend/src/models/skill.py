@@ -12,7 +12,11 @@ class Skill(db.Model):
 
     # Relationships
     projects = db.relationship(
-        "Project", secondary=project_skills, lazy="joined", back_populates="skills"
+        "Project",
+        secondary=project_skills,
+        lazy="joined",
+        back_populates="skills",
+        cascade="all, delete",
     )
 
     # Timestamps
