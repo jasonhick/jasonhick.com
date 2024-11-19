@@ -7,7 +7,7 @@
       @for (client of clients; track client.id) {
          <li>
             <a
-               [routerLink]="['/clients', client.id]"
+               [routerLink]="[client.id]"
                [routerLinkActive]="['bg-gray-700', 'text-gray-100', 'border-gray-600']"
                class="list-item">
                <div class="flex items-center">
@@ -19,7 +19,7 @@
          </li>
       }
       <li>
-         <button type="button" [routerLink]="['/clients', 'add']" class="mt-4">New Client</button>
+         <button type="button" [routerLink]="['add']" class="mt-4">New Client</button>
       </li>
    </ul>
 }

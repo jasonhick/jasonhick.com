@@ -174,7 +174,7 @@ export class ProjectDetailComponent implements OnInit {
                take(1),
                tap(() => {
                   this.projectService.getProjects();
-                  this.router.navigate(['/projects']);
+                  this.router.navigate(['../'], { relativeTo: this.route });
                })
             )
             .subscribe();
@@ -197,7 +197,7 @@ export class ProjectDetailComponent implements OnInit {
             .pipe(
                take(1),
                tap(() => {
-                  this.router.navigate(['/projects']);
+                  this.router.navigate(['../'], { relativeTo: this.route });
                })
             )
             .subscribe();

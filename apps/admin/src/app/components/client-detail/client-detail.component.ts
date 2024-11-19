@@ -144,7 +144,7 @@ export class ClientDetailComponent implements OnInit {
                take(1),
                tap(() => {
                   this.clientService.getClients(); // Refresh the clients list
-                  this.router.navigate(['/clients']);
+                  this.router.navigate(['../'], { relativeTo: this.route });
                })
             )
             .subscribe();

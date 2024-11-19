@@ -7,7 +7,7 @@
       @for (skill of skills; track skill.id) {
          <li>
             <a
-               [routerLink]="['/skills', skill.id]"
+               [routerLink]="[skill.id]"
                [routerLinkActive]="['bg-gray-700', 'text-gray-100', 'border-gray-600']"
                class="list-item">
                <div class="flex items-center">
@@ -19,7 +19,7 @@
          </li>
       }
       <li>
-         <button type="button" [routerLink]="['/skills', 'add']" class="mt-4">New Skill</button>
+         <button type="button" [routerLink]="['add']" class="mt-4">New Skill</button>
       </li>
    </ul>
 }

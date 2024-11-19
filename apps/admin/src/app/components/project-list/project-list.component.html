@@ -7,7 +7,7 @@
       @for (project of projects; track project.id) {
          <li>
             <a
-               [routerLink]="['/projects', project.id]"
+               [routerLink]="[project.id]"
                [routerLinkActive]="['bg-gray-700', 'text-gray-100', 'border-gray-600']"
                class="list-item">
                <div class="flex items-center">
@@ -19,7 +19,7 @@
          </li>
       }
       <li>
-         <button type="button" [routerLink]="['/projects', 'add']" class="mt-4">New Project</button>
+         <button type="button" [routerLink]="['add']" class="mt-4">New Project</button>
       </li>
    </ul>
 }

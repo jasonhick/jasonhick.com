@@ -37,6 +37,16 @@ module.exports = {
     },
     function({ addBase }) {
       addBase({
+        'body': {
+          '@apply bg-gray-900 text-gray-300 text-base leading-relaxed': {},
+        },
+        'p': {
+          '@apply mb-4': {},
+        },
+        'a': {
+          '@apply text-green-500 hover:text-green-400 transition-colors duration-200': {},
+          '@apply focus:outline-none focus:ring-2 focus:ring-green-500/50': {},
+        },
         'input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="tel"], input[type="url"], input[type="date"], select, textarea': {
           '@apply w-full rounded-lg border border-gray-700/50 px-4 py-3 bg-gray-50 text-gray-900': {},
           '@apply focus:ring-2 focus:ring-green-500/50 focus:border-green-600 focus:outline-none': {},

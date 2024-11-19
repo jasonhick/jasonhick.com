@@ -133,7 +133,7 @@ export class SkillDetailComponent implements OnInit {
                take(1),
                tap(() => {
                   this.skillService.getSkills();
-                  this.router.navigate(['/skills']);
+                  this.router.navigate(['../'], { relativeTo: this.route });
                })
             )
             .subscribe();
@@ -162,7 +162,7 @@ export class SkillDetailComponent implements OnInit {
                take(1),
                tap(() => {
                   this.skillService.getSkills();
-                  this.router.navigate(['/skills']);
+                  this.router.navigate(['../'], { relativeTo: this.route });
                })
             )
             .subscribe();
