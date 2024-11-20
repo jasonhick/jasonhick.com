@@ -27,7 +27,7 @@ def test_skill_representation():
     [
         ("Python", "Python"),
         ("JavaScript", "JavaScript"),
-        ("React", "React"),
+        ("Angular", "Angular"),
     ],
 )
 def test_skill_name_assignment(name, expected):
