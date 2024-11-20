@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+
+import { TokenService } from '../../services/token-service/token-service';
 
 @Component({
    selector: 'app-welcome-component',
@@ -8,4 +10,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
    templateUrl: './welcome.html',
    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WelcomeComponent {}
+export class WelcomeComponent {
+   private tokenService = inject(TokenService);
+
+   public readonly isLoading = this.tokenService.isLoading;
+   public readonly error = this.tokenService.error;
+   public readonly permissions = this.tokenService.permissions;
+}

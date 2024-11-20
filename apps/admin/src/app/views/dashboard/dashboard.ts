@@ -17,7 +17,7 @@ export class DashboardComponent {
    public auth = inject(AuthService);
    public isMenuOpen = false;
    public isUserMenuOpen = false;
-
+   public permissions: string[] = [];
    public navItems = [
       { route: 'clients', label: 'Clients' },
       { route: 'projects', label: 'Projects' },

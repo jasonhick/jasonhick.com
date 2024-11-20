@@ -1,0 +1,35 @@
+<div class="space-y-6">
+   <h1 class="text-2xl font-bold">Welcome to Portfolio Admin</h1>
+
+   <div class="card">
+      <div class="card-header">
+         <h2 class="card-title">Your Permissions</h2>
+      </div>
+      
+      <div class="card-body">
+         @if (isLoading()) {
+            <p class="text-gray-500">Loading permissions...</p>
+         } @else if (error()) {
+            <p class="text-red-500">{{ error() }}</p>
+         } @else if (!permissions().length) {
+            <p class="text-gray-500">No permissions found. This could mean either:</p>
+            <ul class="list-disc ml-6 mt-2">
+               <li>You don't have any permissions assigned</li>
+               <li>The permissions weren't included in the token</li>
+               <li>The token format is different than expected</li>
+            </ul>
+         } @else {
+            <ul class="space-y-2">
+               @for (permission of permissions(); track permission) {
+                  <li class="flex items-center space-x-2">
+                     <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                     </svg>
+                     <span>{{ permission }}</span>
+                  </li>
+               }
+            </ul>
+         }
+      </div>
+   </div>
+</div>
